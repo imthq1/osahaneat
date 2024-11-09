@@ -29,4 +29,22 @@ public class CloudinaryService {
                         "folder", folderName
                 ));
     }
+    public Map<String, Object> getFileInfo(String publicId, String folderName)  {
+        try {
+            // Lấy thông tin của file từ Cloudinary
+            Map<String, Object> fileInfo = cloudinary.api().resource(publicId, ObjectUtils.asMap("folder", folderName));
+
+            // Trả về các thông tin file, ví dụ URL và các metadata khác
+            return fileInfo;
+        } catch (IOException e) {
+            // Xử lý ngoại lệ nếu có lỗi xảy ra
+            e.printStackTrace();
+            return null;
+        } catch (Exception e) {
+            // Xử lý ngoại lệ chung
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

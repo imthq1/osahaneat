@@ -1,5 +1,6 @@
 package com.example.demo.config.cloundinary;
 
+import com.example.demo.Domain.response.FileInfo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,21 +23,35 @@ public class CloudinaryController {
     }
 
     @PostMapping("/upload/image")
-    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile[] files,
-                                         @RequestParam("folder") String folderName) throws IOException {
-        List<Map<String, Object>> uploadResults = new ArrayList<>();
+    public ResponseEntity<List<FileInfo>> uploadImage(@RequestParam("file") MultipartFile[] files,
+                                                      @RequestParam("folder") String folderName) throws IOException {
+
+        List<FileInfo> fileInfoList = new ArrayList<>();
 
         for (MultipartFile file : files) {
             Map<String, Object> uploadResult = cloudinaryService.uploadFile(file, folderName);
-            uploadResults.add(uploadResult);
+
+            FileInfo fileInfo = new FileInfo();
+
+            String publicId = (String) uploadResult.get("public_id");
+            String fileName = publicId.split("/")[1];
+
+
+            fileInfo.setName(fileName);
+            fileInfo.setUrl(publicId);
+
+            fileInfoList.add(fileInfo);
         }
 
-        return ResponseEntity.ok(uploadResults);
+
+        return ResponseEntity.ok(fileInfoList);
     }
+
 
     @PostMapping("/upload/video")
     public ResponseEntity<?> uploadVideo(@RequestParam("file") MultipartFile file,
                                          @RequestParam("folder") String folderName) throws IOException {
         return ResponseEntity.ok(cloudinaryService.uploadVideo(file, folderName));
     }
+
 }
