@@ -22,13 +22,8 @@ public class UserDetailCustom implements UserDetailsService {
 
         // Ghi log để kiểm tra thông tin người dùng
         if (user == null) {
-            System.out.println("Không tìm thấy người dùng với email: " + username);
             throw new UsernameNotFoundException("username/password error");
-        } else {
-            System.out.println("Tìm thấy người dùng với email: " + username);
-            System.out.println("Mật khẩu mã hóa từ database: " + user.getPassword());
         }
-
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),

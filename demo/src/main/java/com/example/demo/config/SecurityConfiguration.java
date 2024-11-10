@@ -6,6 +6,7 @@ import com.nimbusds.jose.util.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,11 +21,15 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
+
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+
+
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
+@EnableSpringDataWebSupport(pageSerializationMode = EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO)
 public class SecurityConfiguration
 {
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
@@ -45,9 +50,13 @@ public class SecurityConfiguration
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
     {String[] whiteList={
-            "/","/api/v1/auth/login","/api/v1/auth/register","/login","/home","/oauth2/**","/access-token",
+            "/","/api/v1/auth/login","/api/v1/login","/api/v1/auth/register","/login",
+            "/home","/oauth2/**","/access-token","/api/v1/forget/pass"
+            ,"/api/v1/reset-password",
+
     };
         http.
+
                 csrf(c->c.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeRequests(authz->authz
