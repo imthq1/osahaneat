@@ -18,6 +18,7 @@ import java.util.Optional;
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
     private final AuthenticationEntryPoint delegate=new BearerTokenAuthenticationEntryPoint();
     private final ObjectMapper mapper;
+
     public CustomAuthenticationEntryPoint(ObjectMapper mapper) {
         this.mapper=mapper;
     }

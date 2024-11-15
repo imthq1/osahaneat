@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -61,6 +62,7 @@ public class SecurityConfiguration
                 .cors(Customizer.withDefaults())
                 .authorizeRequests(authz->authz
                         .requestMatchers(whiteList).permitAll()
+                        .requestMatchers(HttpMethod.GET,"api/v1/restaurants/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults())
                 .oauth2Login(Customizer.withDefaults())
