@@ -2,12 +2,13 @@ package com.example.demo.Domain;
 
 import com.example.demo.util.SecurityUtil;
 import com.example.demo.util.constant.AuthProvider;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Getter
@@ -43,6 +44,18 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @OneToMany(mappedBy = "users")
+    @JsonIgnore
+    private List<Order> oders;
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<RatingRestaurant> ratingRestaurants;
+
+    @OneToOne(mappedBy = "user")
+    private Restaurant restaurant;
+
 
     @PrePersist
     public void BeforeCreate() {

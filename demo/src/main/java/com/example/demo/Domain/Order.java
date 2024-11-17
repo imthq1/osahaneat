@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "orders")
-public class Oder {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,8 +30,11 @@ public class Oder {
     private User users;
 
     @ManyToMany
-    @JsonIgnoreProperties(value = {"orders"})
-    @JoinTable(name = "order_food",joinColumns = @JoinColumn(name = "order_id"),inverseJoinColumns = @JoinColumn(name = "food_id"))
+    @JoinTable(
+            name = "order_food",
+            joinColumns = @JoinColumn(name = "food_id"),
+            inverseJoinColumns = @JoinColumn(name = "order_id")
+    )
     private List<Food> foods;
 
 
