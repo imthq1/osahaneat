@@ -1,2 +1,7 @@
-package com.example.demo.util.constant;public enum Status {
+package com.example.demo.util.constant;
+
+public enum Status {
+    APPROVED,
+    PENDING,
+    REJECTED
 }

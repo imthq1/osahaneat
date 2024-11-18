@@ -105,6 +105,24 @@ public class SecurityUtil {
         }
     }
 
+    public String generateResetPasswordLink(String email, long expirationMillis) {
+        Instant now = Instant.now();
+        Instant validity = now.plusMillis(expirationMillis);  // Tạo thời gian hết hạn
+
+        // Tạo JWT ClaimsSet
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuedAt(now)  // Thời gian phát hành token
+                .expiresAt(validity)  // Thời gian hết hạn token
+                .subject(email)  // Thông tin người dùng (email)
+                .build();
+
+        // Tạo header
+        JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITH).build();
+
+        // Mã hóa JWT
+        return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();
+    }
+
     public static Optional<String> getCurrentUserLogin() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return Optional.ofNullable(extractPrincipal(securityContext.getAuthentication()));
