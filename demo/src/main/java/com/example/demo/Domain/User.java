@@ -2,6 +2,7 @@ package com.example.demo.Domain;
 
 import com.example.demo.util.SecurityUtil;
 import com.example.demo.util.constant.AuthProvider;
+import com.example.demo.util.constant.Enable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -32,6 +33,9 @@ public class User {
     private Instant updatedAt;
     private String createdBy;
     private String updatedBy;
+
+    @Enumerated(EnumType.STRING)
+    private Enable enable;
 
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;

@@ -53,7 +53,7 @@ public class SecurityConfiguration
     {String[] whiteList={
             "/","/api/v1/auth/login","/api/v1/login","/api/v1/auth/register","/login",
             "/home","/oauth2/**","/access-token","/api/v1/forget/pass"
-            ,"/api/v1/reset-password",
+            ,"/api/v1/reset-password","/api/v1/auth/verify",
 
     };
         http.
