@@ -21,6 +21,7 @@ public class Food {
     private String name;
     private String description;
     private double price;
+    private long quantity;
     private String intruction;
 
     @ManyToMany(mappedBy = "foods",fetch = FetchType.LAZY)

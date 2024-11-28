@@ -42,12 +42,7 @@ public class Restaurant implements Serializable {
     @JsonIgnore
     private User user;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "categories_restaurant",
-            joinColumns = @JoinColumn(name = "restaurant_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
+    @ManyToMany(mappedBy = "restaurants", fetch = FetchType.LAZY)
     @JsonProperty("categories")
     private List<Category> categories;
 

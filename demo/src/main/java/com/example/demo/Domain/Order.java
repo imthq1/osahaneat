@@ -1,5 +1,6 @@
 package com.example.demo.Domain;
 
+import com.example.demo.util.constant.StatusOrder;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,11 +20,10 @@ public class Order {
     private long id;
 
     private double totalPrice;
-
     private Instant createDate;
 
-
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private StatusOrder status;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

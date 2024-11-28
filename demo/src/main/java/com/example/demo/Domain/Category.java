@@ -21,7 +21,12 @@ public class Category {
 
     private String description;
 
-    @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "categories_restaurant",
+            joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "restaurant_id")
+    )
     @JsonIgnoreProperties(value = {"categories"})
     private List<Restaurant> restaurants;
 
