@@ -61,20 +61,21 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    @Primary
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(jsonMessageConverter());
         return rabbitTemplate;
     }
 
-
     @Primary
     @Bean
     public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
-        factory.setDefaultRequeueRejected(false);
+        factory.setMessageConverter(jsonMessageConverter());
+        factory.setPrefetchCount(10);
+        factory.setConcurrentConsumers(5);
+        factory.setMaxConcurrentConsumers(10);
         return factory;
     }
 
