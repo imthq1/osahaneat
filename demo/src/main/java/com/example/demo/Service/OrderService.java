@@ -14,16 +14,23 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class OderService {
+public class OrderService {
     private final OderRepository oderRepository;
     private final SecurityUtil securityUtil;
     private final UserService userService;
     private final FoodRepository foodRepository;
-    public OderService(OderRepository oderRepository, SecurityUtil securityUtil, UserService userService, FoodRepository foodRepository) {
+    public OrderService(OderRepository oderRepository, SecurityUtil securityUtil, UserService userService, FoodRepository foodRepository) {
         this.oderRepository = oderRepository;
         this.securityUtil = securityUtil;
         this.userService = userService;
         this.foodRepository = foodRepository;
+    }
+    public Order save(Order order)
+    {
+        return this.oderRepository.save(order);
+    }
+    public Order findById(long id) {
+        return this.oderRepository.findById(id);
     }
     public OrderDTO OrderToDTO(Order order) {
         OrderDTO orderDTO = new OrderDTO();
@@ -70,7 +77,7 @@ public class OderService {
 
             List<Food> foods = this.foodRepository.findByIdIn(listFoodIds);
 
-            List<Food> orderedFoods = new ArrayList<>();
+            List<Food> orderedFoods = new ArrayList<>(); 
             Map<Long, Food> foodMap = new HashMap<>();
 
             for (Food food : foods) {
@@ -92,7 +99,6 @@ public class OderService {
                 orderedFoods.add(food);
                 this.foodRepository.save(food);
             }
-
             order.setTotalPrice(totalPrice);
             order.setFoods(orderedFoods);
         }

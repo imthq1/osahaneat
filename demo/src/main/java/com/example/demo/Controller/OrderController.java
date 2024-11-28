@@ -1,7 +1,9 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Domain.Order;
 import com.example.demo.Domain.request.OrderRequest;
 import com.example.demo.Service.OrderService;
+import com.example.demo.Service.RabbitMQ.OrderMessage;
 import com.example.demo.config.RabbitMQ.JobQueue;
 import com.example.demo.util.ApiMessage;
 import com.example.demo.util.error.IdInvalidException;
@@ -12,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 @RestController
 @RequestMapping("/api/v1")
-public class OderController {
+public class OrderController {
     private final OrderService orderService;
     private final RabbitTemplate rabbitTemplate;
-    public OderController(OrderService orderService, RabbitTemplate rabbitTemplate) {
+    public OrderController(OrderService orderService, RabbitTemplate rabbitTemplate) {
         this.orderService = orderService;
         this.rabbitTemplate = rabbitTemplate;
     }
@@ -28,7 +33,18 @@ public class OderController {
         {
             throw new IdInvalidException("Exists is empty");
         }
-        rabbitTemplate.convertAndSend(JobQueue.QUEUE_DEV,orderRequest);
+        Order order=this.orderService.createOrder(orderRequest);
+
+        OrderMessage<Long> orderMessage =new OrderMessage<>();
+        orderMessage.setDelayMillis(
+                Stream.generate(() -> 60000L).limit(15).collect(Collectors.toList()));
+        orderMessage.setData(order.getId());
+        orderMessage.setData(order.getId());
+
+        rabbitTemplate.convertAndSend(JobQueue.QUEUE_DEV,orderMessage,message -> {
+            message.getMessageProperties().setDelayLong(60000L);
+            return message;
+        });
         return ResponseEntity.ok().body("Order created successfully");
     }
 }
