@@ -1,16 +1,16 @@
-osahaneat
-Mô Tả Dự Án
-Dự án osahaneat là một ứng dụng full-stack bao gồm frontend (React) và backend. Dự án này cung cấp giao diện người dùng với tính năng quản lý đăng nhập và quản lý người dùng.
+# osahaneat
 
-Cấu Trúc Dự Án
-plaintext
-Copy code
+## Mô Tả Dự Án
+Dự án `osahaneat` là một ứng dụng **full-stack** bao gồm **frontend** (React) và **backend** (Spring Boot).
+
+## Cấu Trúc Dự Án
+
+```plaintext
 osahaneat/
 │
-├── .idea/                    # Thư mục cấu hình của IDE
+├── .idea/                    # Thư mục cấu hình IDE
 ├── FrontEnd/                 # Thư mục chứa mã nguồn Frontend
+│   └── my-react-app/         # Ứng dụng React
 ├── demo/                     # Thư mục chứa Backend
-│   ├── src/                  # Mã nguồn chính của Backend
-│   ├── pom.xml               # File cấu hình Maven
-│   └── Application.java      # File chính khởi chạy Spring Boot
+│   └── src/                  # Mã nguồn chính
 └── README.md                 # File mô tả chính của dự án
