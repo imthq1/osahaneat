@@ -1,0 +1,187 @@
+/* Main content - nơi chứa table */
+.main-content {
+  margin-left: 250px; /* Để phần nội dung tránh bị che khuất bởi sidebar */
+  padding: 20px;
+  width: calc(
+    100% - 250px
+  ); /* Đảm bảo phần nội dung không vượt quá chiều rộng màn hình */
+  box-sizing: border-box;
+}
+
+/* Table chiếm toàn bộ chiều rộng trong phần nội dung chính */
+.user-table {
+  width: 100%; // Độ rộng chiếm 90% của container cha
+  max-width: 1200px; // Giới hạn độ rộng tối đa để tránh quá dài trên màn hình lớn
+  margin: 20px auto 50px 400px; // Căn giữa bảng với khoảng cách 20px ở trên và dưới
+  padding: 15px;
+  border-radius: 10px; // Bo tròn viền
+  background-color: #fff;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); // Tạo bóng đổ nhẹ
+
+  .ant-table {
+    border-radius: 10px;
+    overflow: hidden; // Đảm bảo nội dung bên trong không tràn ra ngoài viền bo tròn
+  }
+
+  .ant-table-thead > tr > th {
+    background-color: #f0f2f5; // Màu nền nhẹ cho phần header
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .ant-table-tbody > tr:hover {
+    background-color: #e6f7ff; // Hiệu ứng hover cho hàng trong bảng
+  }
+}
+
+/* Căn chỉnh button Add User ở góc phải */
+.add-user-button {
+  position: fixed; /* Đặt button ở vị trí cố định trên màn hình */
+  right: 20px; /* Cách bên phải 20px */
+  top: 10px; /* Cách trên 20px */
+  z-index: 100; /* Đảm bảo button hiển thị trên các phần tử khác */
+}
+.ant-btn {
+  transition: all 0.3s ease;
+  border-radius: 4px;
+
+  &.ant-btn-danger {
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+
+    &:hover {
+      background-color: #ff7875;
+    }
+  }
+
+  &.ant-btn-primary {
+    background-color: #1890ff;
+    color: white;
+    border: none;
+
+    &:hover {
+      background-color: #40a9ff;
+    }
+  }
+}
+.ant-pagination {
+  margin-top: 16px;
+  text-align: center;
+
+  .ant-pagination-item-active {
+    background-color: #1890ff;
+    border-color: #1890ff;
+
+    a {
+      color: white;
+    }
+  }
+}
+
+// Side bar
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 260px;
+  background: linear-gradient(180deg, #d90429, #6a0572);
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 2px 0px 10px rgba(253, 253, 253, 0.1);
+  overflow-y: auto;
+}
+.layout-container {
+  display: flex;
+  height: 100vh;
+
+  .sidebar-container {
+    position: fixed; // Giữ sidebar cố định khi cuộn
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 260px; // Độ rộng sidebar
+    background: linear-gradient(180deg, #d90429, #6a0572);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; // Cho phép cuộn nếu nội dung quá dài
+    z-index: 1000; // Đảm bảo sidebar nằm trên các phần tử khác
+  }
+
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120px; // Chiều cao cố định cho logo
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin-bottom: auto;
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+  }
+
+  .main-content-container {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #fff;
+  }
+
+  .menu-list {
+    background: transparent;
+    border-right: none; // Loại bỏ viền bên phải mặc định
+
+    .ant-menu-item {
+      margin-bottom: 10px;
+
+      color: #fff; // Màu chữ trắng
+      transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+
+      i {
+        color: #fff; // Màu icon trắng
+      }
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1); // Nền mờ khi hover
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.3); // Viền sáng nhẹ khi hover
+      }
+
+      &.ant-menu-item-selected {
+        background-color: rgba(252, 246, 246, 0.2); // Nền mờ khi mục được chọn
+        color: #fff; // Chữ trắng khi chọn
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.3); // Viền sáng nhẹ khi chọn
+
+        i {
+          color: #fff; // Icon trắng khi chọn
+        }
+      }
+    }
+  }
+}
+.logo-container {
+  display: flex;
+  justify-content: center; // Căn giữa theo chiều ngang
+  align-items: center; // Căn giữa theo chiều dọc
+  height: 120px; // Đặt chiều cao cố định cho khu vực logo
+  padding: 20px; // Tạo khoảng cách bên trong
+  background-color: rgba(255, 255, 255, 0.1); // Nền mờ nhẹ để tạo sự tách biệt
+  margin-bottom: 20px; // Khoảng cách dưới logo
+
+  img {
+    max-width: 100%; // Đảm bảo ảnh không vượt quá kích thước container
+    max-height: 100%; // Đảm bảo chiều cao ảnh không vượt quá container
+    object-fit: contain; // Giữ tỷ lệ khung hình và đảm bảo ảnh không bị méo
+    border-radius: 10px; // Bo tròn góc cho ảnh nếu cần
+  }
+}
