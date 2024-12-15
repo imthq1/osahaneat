@@ -3,9 +3,9 @@
 ## Mô Tả Dự Án
 Dự án `osahaneat` là một ứng dụng **full-stack** bao gồm **frontend** (React) và **backend** (Spring Boot).
 
-#Technical
+# Technical
 
-##Backend:
+## Backend:
 
 1. Framework: Spring Boot
 2. Database: MySQL
@@ -14,7 +14,7 @@ Dự án `osahaneat` là một ứng dụng **full-stack** bao gồm **frontend*
 5. RabbitMQ: Xử lý hàng đợi tin nhắn và tác vụ bất đồng bộ.
 6. CRUD: Tạo, đọc, cập nhật và xóa dữ liệu người dùng.
    
-##Frontend:
+## Frontend:
 
 1. Framework: React
 2. Language: TypeScript
