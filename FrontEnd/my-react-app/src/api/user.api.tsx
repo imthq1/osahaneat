@@ -27,8 +27,8 @@ class UserApi {
     return response.ok;
   }
 
-  async updateUser(token: string, id: number, userData: Partial<IUser>) {
-    const response = await fetch(`${BASE_URL}/users/${id}`, {
+  async updateUser(token: string, userData: Partial<IUser>) {
+    const response = await fetch(`${BASE_URL}/users`, {
       method: "PUT",
       headers: this.getHeaders(token),
       body: JSON.stringify(userData),

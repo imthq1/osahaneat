@@ -1,11 +1,24 @@
 import { CodeOutlined, MailOutlined } from "@ant-design/icons";
-import { Input, Button } from "antd";
+import { Input, Button, message } from "antd";
 import { useState } from "react";
-// Import file SCSS
+import LoginAPI from "../../api/user.login"; // Import API class
+import "../../style/login.scss"; // Import SCSS
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const LoginFetch = async () => {
+    try {
+      const response = await LoginAPI.login(email, password);
+
+      message.success("Login successful!");
+
+      localStorage.setItem("access_token", response.data.access_token);
+    } catch (error) {
+      message.error("Invalid email or password. Please try again.");
+    }
+  };
 
   return (
     <div className="login-container">
@@ -35,7 +48,12 @@ const Login = () => {
           />
         </div>
 
-        <Button type="primary" block className="login-button">
+        <Button
+          type="primary"
+          block
+          className="login-button"
+          onClick={LoginFetch}
+        >
           SIGN IN
         </Button>
 
