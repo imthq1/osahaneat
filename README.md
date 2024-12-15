@@ -3,22 +3,21 @@
 ## Mô Tả Dự Án
 Dự án `osahaneat` là một ứng dụng **full-stack** bao gồm **frontend** (React) và **backend** (Spring Boot).
 
-Technical
-Backend:
+#Technical
+##Backend:
 
-Framework: Spring Boot
-Database: MySQL
-API Integration:
-Cloudinary: Quản lý và tải lên hình ảnh.
-VNPAY: Thanh toán trực tuyến.
-RabbitMQ: Xử lý hàng đợi tin nhắn và tác vụ bất đồng bộ.
-CRUD Operations: Tạo, đọc, cập nhật và xóa dữ liệu người dùng.
-Frontend:
+1. Framework: Spring Boot
+2. Database: MySQL
+3. Cloudinary: Quản lý và tải lên hình ảnh.
+4. VNPAY: Thanh toán trực tuyến.
+5. RabbitMQ: Xử lý hàng đợi tin nhắn và tác vụ bất đồng bộ.
+6. CRUD: Tạo, đọc, cập nhật và xóa dữ liệu người dùng.
+##Frontend:
 
-Framework: React
-Language: TypeScript
-UI Library: Ant Design
-Styling: SCSS
+1. Framework: React
+2. Language: TypeScript
+3. UI Library: Ant Design
+4. Styling: SCSS
 
 ```plaintext
 osahaneat/
