@@ -1,0 +1,46 @@
+.verify-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; // Chiều cao full màn hình
+  background-color: #f9f9f9;
+
+  h2 {
+    margin-top: 20px;
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
+    animation: fadeIn 1.5s ease-in-out infinite; // Hiệu ứng chữ
+  }
+
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3; // Viền mờ
+    border-top: 5px solid #1890ff; // Viền quay màu xanh
+    border-radius: 50%;
+    animation: spin 1s linear infinite; // Hiệu ứng xoay
+  }
+
+  // Hiệu ứng xoay cho spinner
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  // Hiệu ứng nhấp nháy chữ
+  @keyframes fadeIn {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+}

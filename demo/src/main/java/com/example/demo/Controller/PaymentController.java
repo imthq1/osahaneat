@@ -1,9 +1,11 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Domain.Order;
 import com.example.demo.Domain.response.PaymentDTO;
 import com.example.demo.Domain.response.ResponseObject;
 import com.example.demo.Service.OrderService;
 import com.example.demo.Service.payment.PaymentService;
+import com.example.demo.util.constant.StatusOrder;
 import com.example.demo.util.error.IdInvalidException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -31,7 +33,12 @@ public class PaymentController {
     @GetMapping("/vn-pay-callback")
     public ResponseObject<PaymentDTO.VNPayResponse> payCallbackHandler(HttpServletRequest request) {
         String status = request.getParameter("vnp_ResponseCode");
+        long orderId = Long.parseLong(request.getParameter("vnp_TxnRef"));
+
+        Order order = this.orderService.findById(orderId);
         if ("00".equals(status)) {
+            order.setStatus(StatusOrder.SUCCESS);
+            this.orderService.save(order);
             PaymentDTO.VNPayResponse response = PaymentDTO.VNPayResponse.builder()
                     .code("00")
                     .message("Success")
@@ -40,6 +47,8 @@ public class PaymentController {
 
             return new ResponseObject<>(HttpStatus.OK, "Success", response);
         } else {
+            order.setStatus(StatusOrder.FAILED);
+            this.orderService.save(order);
             return new ResponseObject<>(HttpStatus.BAD_REQUEST, "Failed", null);
         }
     }

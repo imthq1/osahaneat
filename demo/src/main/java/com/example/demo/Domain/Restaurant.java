@@ -2,12 +2,15 @@ package com.example.demo.Domain;
 
 import com.example.demo.util.constant.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,6 +31,10 @@ public class Restaurant implements Serializable {
     private int rating;
 
     private String logo;
+
+    @OneToMany(mappedBy = "restaurant")
+    private List<Image> imageList = new ArrayList<>();
+
 
     private String content;
 

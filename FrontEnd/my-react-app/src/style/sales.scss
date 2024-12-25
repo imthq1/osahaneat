@@ -1,0 +1,94 @@
+.sales-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f6f6f6;
+  height: 100vh;
+  padding-top: 20px;
+  font-family: Arial, sans-serif;
+
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 2px solid #eee;
+    z-index: 100;
+
+    .header-logo .title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #000000;
+    }
+
+    .icon {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      color: #333;
+      cursor: pointer;
+
+      &:hover {
+        color: #ee4d2d;
+      }
+    }
+  }
+
+  .main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    width: 100%;
+    margin-top: 100px;
+
+    .welcome-section {
+      text-align: center;
+      background-color: #fff;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      width: 500px;
+      max-width: 90%;
+
+      .welcome-image {
+        width: 150px;
+        height: 150px;
+        margin-bottom: 20px;
+      }
+
+      .welcome-title {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      .welcome-description {
+        font-size: 16px;
+        color: #555;
+        margin-bottom: 30px;
+      }
+
+      .register-button {
+        background-color: #ee4d2d;
+        color: #fff;
+        border: none;
+        padding: 12px 30px;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #d8431e;
+        }
+      }
+    }
+  }
+}

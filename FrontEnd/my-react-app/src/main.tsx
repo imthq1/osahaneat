@@ -1,7 +1,7 @@
 import { StrictMode, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import ManagerUser from "./screen/user.manage.tsx";
-import "./style/tableUser.scss";
+
 import App from "./App.tsx";
 import {
   createBrowserRouter,
@@ -12,22 +12,37 @@ import {
   Routes,
 } from "react-router";
 import type { MenuProps } from "antd";
-import { FireOutlined, TeamOutlined } from "@ant-design/icons";
+import { HomeOutlined, TeamOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
 import Login from "./screen/user/login.tsx";
-import DisplayLogin from "./screen/user/login.tsx";
 
+import Reset from "./screen/user/resetPass.tsx";
+import Forgot from "./screen/user/forgot.tsx";
+import Register from "./screen/user/register.tsx";
+import VerifyEmail from "./component/user/login/user.verify.tsx";
+import LayoutHome from "./component/user/home/LayoutHome.tsx";
+import "./style/tableUser.scss";
+import Home from "./component/user/home/Home.tsx";
+
+import SellerComponent from "./component/user/sales/Seller.tsx";
+import RegisterSeller from "./component/user/sales/Register.tsx";
 const items: MenuProps["items"] = [
   {
     label: <Link to="/admin">Home</Link>,
     key: "home",
-    icon: <FireOutlined />,
+    icon: <HomeOutlined />,
   },
   {
     label: <Link to="/admin/user">Manage Users</Link>,
     key: "users",
     icon: <TeamOutlined />,
     disabled: false,
+  },
+  {
+    label: <Link to="/admin/sales">Restaurant registration</Link>,
+    key: "register",
+    disabled: false,
+    icon: <HomeOutlined />,
   },
 ];
 const Header = () => {
@@ -52,35 +67,15 @@ const Header = () => {
 };
 
 const LayoutAdmin = () => {
-  const fetchData = async () => {
-    try {
-      const response = await fetch("http://localhost:8080/api/v1/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: "xamthang09@gmail.com",
-          password: "123",
-        }),
-      });
-      const data = await response.json();
-      localStorage.setItem("access_token", data.data.access_token);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    }
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
   return (
     <div className="layout-container">
       <div className="sidebar-container">
-        <a href="http://localhost:5173/admin">
+        <a href="http://localhost:5173/home">
           <div className="logo-container">
             <img src="src/img/Remove-bg.ai_1734235132974.png" alt="Logo" />
           </div>
         </a>
+
         <Header />
       </div>
 
@@ -101,11 +96,39 @@ const router = createBrowserRouter([
         path: "user",
         element: <ManagerUser />,
       },
+      {
+        path: "sales",
+        element: <ManagerUser />,
+      },
     ],
   },
   {
+    path: "/seller",
+    element: <SellerComponent />,
+  },
+  { path: "seller/register", element: <RegisterSeller /> },
+
+  {
     path: "/login",
-    element: <DisplayLogin />,
+    element: <Login />,
+  },
+  {
+    path: "/forgot",
+    element: <Forgot />,
+  },
+  {
+    path: "/forgot/reset",
+    element: <Reset />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+  { path: "/verify", element: <VerifyEmail /> },
+  {
+    path: "/home",
+    element: <LayoutHome />,
+    children: [{ index: true, element: <Home /> }],
   },
 ]);
 

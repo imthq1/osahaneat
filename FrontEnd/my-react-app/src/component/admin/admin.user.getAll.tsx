@@ -98,6 +98,11 @@ const GetAllUser: React.FC = () => {
       key: "address",
     },
     {
+      title: "Enable",
+      dataIndex: "enable",
+      key: "enable",
+    },
+    {
       title: "Actions",
       key: "actions",
       render: (record: IUsers) => (
@@ -154,7 +159,7 @@ const GetAllUser: React.FC = () => {
         columns={columns}
         rowKey="id"
       >
-        <Pagination defaultPageSize={0}></Pagination>
+        <Pagination defaultPageSize={1}></Pagination>
       </Table>
     </>
   );

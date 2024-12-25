@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OderRepository extends JpaRepository<Order, Long>, JpaSpecificationExecutor<Order> {
-
+    Order findById(long id);
 }

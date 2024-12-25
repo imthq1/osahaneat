@@ -61,7 +61,27 @@ public class OrderService {
 
         return orderDTO;
     }
+    public Boolean validateFood(OrderRequest orderRequest){
 
+        if (orderRequest.getFoods() != null) {
+            List<Long> listFoodIds = orderRequest.getFoods().stream()
+                    .map(OrderRequest.FoodOrder::getFoodId)
+                    .collect(Collectors.toList());
+            List<Food> foods = this.foodRepository.findByIdIn(listFoodIds);
+
+            Map<Long, Food> foodMap = new HashMap<>();
+            for (Food food : foods) {
+                foodMap.put(food.getId(), food);
+            }
+            for (OrderRequest.FoodOrder foodOrder : orderRequest.getFoods()) {
+                Food food = foodMap.get(foodOrder.getFoodId());
+                if (food.getQuantity() < foodOrder.getQuantity()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     public Order createOrder(OrderRequest orderRequest) {
         String name=this.securityUtil.getCurrentUserLogin().get();
         User user=this.userService.findByEmail(name);
@@ -94,7 +114,7 @@ public class OrderService {
                 if (food.getQuantity() < foodOrder.getQuantity()) {
                     throw new IllegalArgumentException("Không đủ số lượng cho món: " + food.getName());
                 }
-                totalPrice += foodOrder.getQuantity() * food.getPrice()*100L;
+                totalPrice += foodOrder.getQuantity() * food.getPrice();
                 food.setQuantity(food.getQuantity() - foodOrder.getQuantity());
                 orderedFoods.add(food);
                 this.foodRepository.save(food);

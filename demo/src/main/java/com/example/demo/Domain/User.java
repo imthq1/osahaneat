@@ -42,7 +42,7 @@ public class User {
 
     private String providerId;
 
-    private String imageUrl;
+    private String image_url;
     private String address;
 
     @ManyToOne

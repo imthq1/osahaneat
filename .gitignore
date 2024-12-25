@@ -1,0 +1,68 @@
+# Ignore all logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Backend-specific ignores (demo folder)
+demo/target/
+demo/.mvn/wrapper/maven-wrapper.jar
+demo/**/src/main/**/target/
+demo/**/src/test/**/target/
+demo/src/main/resources/application.properties
+
+# Spring Tool Suite (STS)
+demo/.apt_generated
+demo/.classpath
+demo/.factorypath
+demo/.project
+demo/.settings
+demo/.springBeans
+demo/.sts4-cache
+
+# IntelliJ IDEA
+demo/.idea/
+demo/*.iws
+demo/*.iml
+demo/*.ipr
+
+# NetBeans
+demo/nbproject/private/
+demo/nbbuild/
+demo/dist/
+demo/nbdist/
+demo/.nb-gradle/
+demo/build/
+demo/**/src/main/**/build/
+demo/**/src/test/**/build/
+
+# Frontend-specific ignores (FrontEnd folder)
+FrontEnd/node_modules/
+FrontEnd/dist/
+FrontEnd/dist-ssr/
+FrontEnd/*.local
+FrontEnd/.env
+FrontEnd/.env.local
+FrontEnd/.env.*.local
+
+# VS Code
+.vscode/
+!.vscode/extensions.json
+
+# Ignore OS-generated files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE-specific files
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# General exclusions for both backend and frontend
+.idea/
+*.iml

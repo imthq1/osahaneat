@@ -1,6 +1,7 @@
 package com.example.demo.config.oauth2;
 
 import com.example.demo.Domain.User;
+import com.example.demo.util.SecurityUtil;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,6 +41,8 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     public static UserPrincipal create(User user, Map<String, Object> attributes) {
         UserPrincipal userPrincipal = UserPrincipal.create(user);
         userPrincipal.setAttributes(attributes);
+
+
         return userPrincipal;
     }
 

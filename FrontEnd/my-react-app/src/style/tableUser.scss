@@ -1,7 +1,7 @@
 /* Main content - nơi chứa table */
 .main-content {
-  margin-left: 250px; /* Để phần nội dung tránh bị che khuất bởi sidebar */
-  padding: 20px;
+  margin-left: 170px; /* Để phần nội dung tránh bị che khuất bởi sidebar */
+  padding: 200px;
   width: calc(
     100% - 250px
   ); /* Đảm bảo phần nội dung không vượt quá chiều rộng màn hình */
@@ -85,7 +85,7 @@
   top: 0;
   left: 0;
   bottom: 0;
-  width: 260px;
+  width: 170px;
   background: linear-gradient(180deg, #d90429, #6a0572);
   color: #fff;
   padding: 20px;
@@ -100,11 +100,11 @@
   height: 100vh;
 
   .sidebar-container {
-    position: fixed; // Giữ sidebar cố định khi cuộn
+    position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
-    width: 260px; // Độ rộng sidebar
+    width: 200px; // Độ rộng sidebar
     background: linear-gradient(180deg, #d90429, #6a0572);
     color: #fff;
     display: flex;
@@ -119,15 +119,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 120px; // Chiều cao cố định cho logo
-    padding: 30px;
+    height: 120px;
+    padding: 20px;
     background-color: rgba(255, 255, 255, 0.1);
     margin-bottom: auto;
 
     img {
       max-width: 100%;
       max-height: 100%;
-      object-fit: contain;
       border-radius: 10px;
     }
   }
@@ -167,21 +166,5 @@
         }
       }
     }
-  }
-}
-.logo-container {
-  display: flex;
-  justify-content: center; // Căn giữa theo chiều ngang
-  align-items: center; // Căn giữa theo chiều dọc
-  height: 120px; // Đặt chiều cao cố định cho khu vực logo
-  padding: 20px; // Tạo khoảng cách bên trong
-  background-color: rgba(255, 255, 255, 0.1); // Nền mờ nhẹ để tạo sự tách biệt
-  margin-bottom: 20px; // Khoảng cách dưới logo
-
-  img {
-    max-width: 100%; // Đảm bảo ảnh không vượt quá kích thước container
-    max-height: 100%; // Đảm bảo chiều cao ảnh không vượt quá container
-    object-fit: contain; // Giữ tỷ lệ khung hình và đảm bảo ảnh không bị méo
-    border-radius: 10px; // Bo tròn góc cho ảnh nếu cần
   }
 }

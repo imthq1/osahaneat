@@ -1,18 +1,26 @@
 import { CodeOutlined, MailOutlined } from "@ant-design/icons";
 import { Input, Button, message } from "antd";
 import { useState } from "react";
-import LoginAPI from "../../api/user.login"; // Import API class
-import "../../style/login.scss"; // Import SCSS
+import { loginAPI } from "../../../api/user.login";
+import "../../../style/login.scss";
+import { Link, useNavigate } from "react-router";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate();
   const LoginFetch = async () => {
     try {
-      const response = await LoginAPI.login(email, password);
+      const response = await loginAPI.login(email, password);
 
       message.success("Login successful!");
+      if (response.data.userLogin.role == null) {
+        navigate("/home");
+      } else if (response.data.userLogin.role.roleName == "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/home");
+      }
 
       localStorage.setItem("access_token", response.data.access_token);
     } catch (error) {
@@ -58,12 +66,12 @@ const Login = () => {
         </Button>
 
         <div className="extra-links">
-          <a href="#" className="forgot-password">
+          <Link to="/forgot" className="forgot-password">
             Forgot password?
-          </a>
-          <Button type="default" block className="create-account-button">
+          </Link>
+          <Link to="/register" className="create-account-button">
             CREATE AN ACCOUNT
-          </Button>
+          </Link>
         </div>
       </div>
     </div>

@@ -23,7 +23,22 @@ public class CloudinaryController {
     }
 
     @PostMapping("/upload/image")
-    public ResponseEntity<List<FileInfo>> uploadImage(@RequestParam("file") MultipartFile[] files,
+    public ResponseEntity<FileInfo> uploadImage(@RequestParam("file") MultipartFile files,
+                                                      @RequestParam("folder") String folderName) throws IOException {
+
+            Map<String, Object> uploadResult = cloudinaryService.uploadFile(files, folderName);
+
+            FileInfo fileInfo = new FileInfo();
+
+            String publicId = (String) uploadResult.get("public_id");
+            String fileName = publicId.split("/")[1];
+            fileInfo.setName(fileName);
+            fileInfo.setUrl(publicId);
+
+        return ResponseEntity.ok().body(fileInfo);
+    }
+    @PostMapping("/upload/images")
+    public ResponseEntity<List<FileInfo>> uploadImages(@RequestParam("file") MultipartFile[] files,
                                                       @RequestParam("folder") String folderName) throws IOException {
 
         List<FileInfo> fileInfoList = new ArrayList<>();

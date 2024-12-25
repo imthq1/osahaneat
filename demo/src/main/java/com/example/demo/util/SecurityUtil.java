@@ -84,14 +84,15 @@ public class SecurityUtil {
                 .build();
         //header
         JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITH).build();
+
         return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader,
                 claims)).getTokenValue();
     }
+
     private SecretKey getSecretKey() {
         byte[] keyBytes = Base64.from(jwtKey).decode();
         return new SecretKeySpec(keyBytes, 0, keyBytes.length, JWT_ALGORITH.getName());
     }
-
     public Jwt checkValidRefreshToken(String token)
     {
         NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withSecretKey(
@@ -105,9 +106,10 @@ public class SecurityUtil {
         }
     }
 
+
     public String generateResetPasswordLink(String email, long expirationMillis) {
         Instant now = Instant.now();
-        Instant validity = now.plusMillis(expirationMillis);  // Tạo thời gian hết hạn
+        Instant validity = now.plusMillis(expirationMillis);
 
         // Tạo JWT ClaimsSet
         JwtClaimsSet claims = JwtClaimsSet.builder()

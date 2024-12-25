@@ -18,6 +18,7 @@ public class RestaurantDTO {
     private String status;
     private UserDTO userDTO;
     private List<CategoryDTO> categoryDTO;
+    private List<ImageDTO> imageDTOS;
     @Getter
     @Setter
     public static class UserDTO {
@@ -31,6 +32,11 @@ public class RestaurantDTO {
     public static class CategoryDTO {
         private long id;
         private String name;
+    }
+    @Getter
+    @Setter
+    public static class ImageDTO{
+        private String path;
     }
 
 }

@@ -1,7 +1,9 @@
 package com.example.demo.Domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -23,6 +25,7 @@ public class Role {
 
 
     private String description;
+
     @JsonIgnore
     @OneToMany(mappedBy = "role")
     private List<User> users;
@@ -31,4 +34,12 @@ public class Role {
     @JsonIgnoreProperties(value = {"roles"})
     @JoinTable(name = "permission_role",joinColumns = @JoinColumn(name = "role_id"),inverseJoinColumns = @JoinColumn(name = "permission_id"))
     private List<Permission> permissions;
+
+    @JsonCreator
+    public static Role fromId(@JsonProperty("id") long id) {
+        Role role = new Role();
+        role.setId(id);
+
+        return role;
+    }
 }

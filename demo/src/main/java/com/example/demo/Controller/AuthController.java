@@ -5,6 +5,7 @@ import com.example.demo.Domain.request.ReqLoginDTO;
 import com.example.demo.Domain.response.ResLoginDTO;
 import com.example.demo.Domain.response.UserDTO;
 import com.example.demo.Repository.UserRepository;
+import com.example.demo.Service.EmailService;
 import com.example.demo.Service.UserService;
 import com.example.demo.util.ApiMessage;
 import com.example.demo.util.SecurityUtil;
@@ -26,7 +27,8 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.web.bind.annotation.*;
 
-import static com.example.demo.config.RabbitMQ.JobQueue.QUEUE_DEV_REGISTER;
+import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api/v1")
@@ -37,24 +39,32 @@ public class AuthController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private RabbitTemplate rabbitTemplate;
+    private final EmailService emailService;
 
-    public AuthController(AuthenticationManagerBuilder authenticationManagerBuilder, UserService userService, SecurityUtil securityUtil, UserRepository userRepository, PasswordEncoder passwordEncoder, RabbitTemplate rabbitTemplate) {
+    public AuthController(AuthenticationManagerBuilder authenticationManagerBuilder, UserService userService, SecurityUtil securityUtil,
+                          UserRepository userRepository,
+                          PasswordEncoder passwordEncoder,
+                          RabbitTemplate rabbitTemplate,
+                          EmailService emailService) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.userService = userService;
         this.securityUtil = securityUtil;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.rabbitTemplate = rabbitTemplate;
+        this.emailService = emailService;
     }
 
     @Value("${imthang.jwt.refresh-token-validity-in-seconds}")
     private long refreshTokenExpiration;
 
     @PostMapping("/auth/login")
-    public ResponseEntity login(@Valid @RequestBody ReqLoginDTO user) {
+    public ResponseEntity login(@Valid @RequestBody ReqLoginDTO user) throws IdInvalidException {
 
         User currentUserDB = this.userService.findByEmail(user.getUsername());
-
+        if(currentUserDB.getEnable().equals(null)){
+            throw new IdInvalidException("User not verify");
+        }
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
 
         //xac thuc
@@ -96,28 +106,52 @@ public class AuthController {
                 header(HttpHeaders.SET_COOKIE, resCookies.toString())
                 .body(resLoginDTO);
     }
-
-    @PostMapping("/login")
-    public ResponseEntity logintest(@Valid @RequestBody ReqLoginDTO login) {
-        User currentUserDB = this.userService.findByEmail(login.getUsername());
-        if (currentUserDB == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+    @PostMapping("/auth/logout")
+    @ApiMessage("Logout User")
+    public ResponseEntity<Void> logout()throws IdInvalidException{
+        String email=SecurityUtil.getCurrentUserLogin().isPresent()?SecurityUtil.getCurrentUserLogin().get():"";
+        if(email.equals(""))
+        {
+            throw new IdInvalidException("Access token khong hop le");
         }
-        // Kiểm tra mật khẩu
-        if (this.passwordEncoder.matches(login.getPassword(), currentUserDB.getPassword())) {
 
-            return ResponseEntity.ok().body(login);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-        }
+        this.userService.updateUserToken(null,email);
+        //remove refresh token cookie
+        ResponseCookie resCookies=ResponseCookie.from("refresh_token1",null)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(0)
+                .build();
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE,resCookies.toString()).body(null);
     }
 
+    @PostMapping("/auth/account")
+    @ApiMessage("get Account")
+    public ResponseEntity<UserDTO> getAccount() throws IdInvalidException {
+        UserDTO userDTO=new UserDTO();
+        Optional<String> email=SecurityUtil.getCurrentUserLogin();
+        if(email.isPresent()){
+            User currentUserDB = this.userService.findByEmail(email.get());
+            if(currentUserDB.getRole()==null){
+                userDTO.setRoleName("");
+            }else
+            {
+                userDTO.setRoleName(currentUserDB.getRole().getRoleName());
+            }
+            userDTO.setAddress(currentUserDB.getAddress());
+            userDTO.setEmail(currentUserDB.getEmail());
+            userDTO.setFullname(currentUserDB.getFullname());
+            userDTO.setId(currentUserDB.getId());
+        }
+        return ResponseEntity.ok(userDTO);
+    }
     @PostMapping("/auth/register")
     @ApiMessage("Register a new user")
     public ResponseEntity<UserDTO> regiser(@Valid @RequestBody User postManUser) throws IdInvalidException {
         if(userRepository.findByEmail(postManUser.getEmail()) != null)
         {
-            throw new IdInvalidException("User not exists!");
+            throw new IdInvalidException("User has been exists!");
         }
 
         UserDTO userDTO=this.userService.CreateUser(postManUser);
@@ -125,6 +159,7 @@ public class AuthController {
 
         return ResponseEntity.ok().body(userDTO);
     }
+
     @PostMapping("/auth/verify")
     @ApiMessage("verify account")
     public ResponseEntity<?> verify(@RequestParam("token") String token) {

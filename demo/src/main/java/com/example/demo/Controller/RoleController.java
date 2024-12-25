@@ -35,6 +35,7 @@ public class RoleController {
 
         return ResponseEntity.ok().body(role.get());
     }
+
 //    @GetMapping("/roles")
 //    @ApiMessage("Get All Roles")
 //    public ResponseEntity<List<Role>> getAllRoles( ) throws IdInvalidException {

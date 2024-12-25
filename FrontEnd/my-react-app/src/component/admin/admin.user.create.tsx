@@ -2,6 +2,7 @@ import { Input, Modal, notification, Button, Upload } from "antd";
 import { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd";
+import { upload } from "../../api/api.upload";
 
 interface IProps {
   access_token: string;
@@ -18,47 +19,26 @@ const CreateUserModal = (props: IProps) => {
   const [gender, setGender] = useState("");
   const [address, setAddress] = useState("");
   const [role, setRole] = useState(2);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-
+  const [image, setImage] = useState<File | null>(null);
+  const [image_url, setImageUrl] = useState<string | null>(null);
   const { access_token, fetchData, isCreateModalOpen, setIsCreateModalOpen } =
     props;
 
-  const UploadProps: UploadProps = {
-    name: "file",
-    action: "http://localhost:8080/api/v1/upload/image",
-    headers: {
-      Authorization: `Bearer ${access_token}`,
+  const uploadProps: UploadProps = {
+    maxCount: 1,
+    beforeUpload: (file) => {
+      setImage(file);
+      notification.success({
+        message: "File Ready for Upload",
+        description: `${file.name} has been selected.`,
+      });
+      return false;
     },
-    data: {
-      folder: "user-images",
-    },
-    onChange(info) {
-      if (info.file.status === "uploading") {
-        console.log("Uploading:", info.file.name);
-      }
-      if (info.file.status === "done") {
-        const { data } = info.file.response || {};
-        if (data && Array.isArray(data) && data.length > 0) {
-          const uploadedFile = data[0];
-          const { name, url } = uploadedFile;
-          console.log(url);
-          setImageUrl(url);
-          notification.success({
-            message: "File uploaded successfully",
-            description: `${name} uploaded successfully!`,
-          });
-        } else {
-          notification.error({
-            message: "File upload failed",
-            description: "No valid data received from server.",
-          });
-        }
-      } else if (info.file.status === "error") {
-        notification.error({
-          message: "File upload failed",
-          description: `${info.file.name} failed to upload.`,
-        });
-      }
+    onRemove: () => {
+      setImage(null);
+      notification.info({
+        message: "File Removed",
+      });
     },
   };
 
@@ -71,6 +51,19 @@ const CreateUserModal = (props: IProps) => {
       return;
     }
 
+    if (image) {
+      try {
+        const response = await upload.uploadImage(image, "user-images");
+        setImageUrl(response.data.url);
+      } catch (error) {
+        notification.error({
+          message: "Image Upload Failed",
+          description: "Unable to upload the image. Please try again.",
+        });
+        return;
+      }
+    }
+
     const newUser = {
       fullname,
       email,
@@ -78,8 +71,8 @@ const CreateUserModal = (props: IProps) => {
       age,
       gender,
       address,
+      image_url,
       role: { id: role },
-      imageUrl,
     };
 
     try {
@@ -108,6 +101,7 @@ const CreateUserModal = (props: IProps) => {
         setAddress("");
         setRole(2);
         setImageUrl(null);
+        setImage(null);
 
         fetchData();
         setIsCreateModalOpen(false);
@@ -180,7 +174,7 @@ const CreateUserModal = (props: IProps) => {
         onChange={(e) => setRole(Number(e.target.value))}
         style={{ marginBottom: "8px" }}
       />
-      <Upload {...UploadProps}>
+      <Upload {...uploadProps}>
         <Button icon={<UploadOutlined />}>Click to Upload</Button>
       </Upload>
     </Modal>

@@ -31,20 +31,25 @@ public class OrderController {
     public ResponseEntity<String> createOder(@RequestBody OrderRequest orderRequest) throws IdInvalidException {
         if(orderRequest.getFoods()==null)
         {
-            throw new IdInvalidException("Exists is empty");
+            throw new IdInvalidException("Order is empty");
+        }
+        if(this.orderService.validateFood(orderRequest)==false)
+        {
+            throw new IdInvalidException("Not enough quantity for the dish");
         }
         Order order=this.orderService.createOrder(orderRequest);
 
         OrderMessage<Long> orderMessage =new OrderMessage<>();
         orderMessage.setDelayMillis(
                 Stream.generate(() -> 60000L).limit(15).collect(Collectors.toList()));
-        orderMessage.setData(order.getId());
+
         orderMessage.setData(order.getId());
 
-        rabbitTemplate.convertAndSend(JobQueue.QUEUE_DEV,orderMessage,message -> {
+        rabbitTemplate.convertAndSend(JobQueue.QUEUE_DEV, orderMessage, message -> {
             message.getMessageProperties().setDelayLong(60000L);
             return message;
         });
         return ResponseEntity.ok().body("Order created successfully");
     }
+
 }

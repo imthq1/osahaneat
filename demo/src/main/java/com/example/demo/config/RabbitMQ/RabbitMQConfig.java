@@ -17,8 +17,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Primary;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 @EnableRabbit
 @Configuration
@@ -95,4 +97,6 @@ public class RabbitMQConfig {
         }
         return queues;
     }
+
+
 }

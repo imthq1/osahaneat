@@ -72,24 +72,27 @@
   }
 
   .extra-links {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
 
     .forgot-password {
-      font-size: 14px;
-      color: #777;
-      text-decoration: underline;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       display: inline-block;
-
-      &:hover {
-        color: #d90429;
-      }
+      text-decoration: none;
     }
 
     .create-account-button {
-      height: 45px;
+      display: block;
+      text-align: center;
+      padding: 8px 0;
+      background-color: white;
       border-radius: 5px;
-      font-weight: bold;
+      color: #333;
+      text-decoration: none;
+
+      &:hover {
+        background-color: #e0e4e8;
+      }
     }
   }
 }

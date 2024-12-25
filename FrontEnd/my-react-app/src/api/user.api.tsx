@@ -43,6 +43,17 @@ class UserApi {
     });
     return response.ok;
   }
+  async getAccount(token: any) {
+    const response = await fetch(`${BASE_URL}/auth/account`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const result = await response.json();
+    return result;
+  }
 }
 
 export const userApi = new UserApi();

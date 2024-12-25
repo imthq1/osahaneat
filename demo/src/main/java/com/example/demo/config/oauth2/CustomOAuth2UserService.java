@@ -8,6 +8,7 @@ import com.example.demo.config.oauth2.user.OAuth2UserInfo;
 import com.example.demo.config.oauth2.user.OAuth2UserInfoFactory;
 import com.example.demo.util.constant.AuthProvider;
 import io.micrometer.common.util.StringUtils;
+import jakarta.transaction.Transactional;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -18,12 +19,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static com.example.demo.util.constant.Enable.ENABLED;
+
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
-    private final UserService userService;
     private final UserRepository userRepository;
-    public CustomOAuth2UserService(UserService userService, UserRepository userRepository) {
-        this.userService = userService;
+    public CustomOAuth2UserService( UserRepository userRepository) {
+
         this.userRepository = userRepository;
     }
     @Override
@@ -45,7 +47,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
 
-        Optional<User> userOptional = Optional.ofNullable(userService.findByEmail(oAuth2UserInfo.getEmail()));
+        Optional<User> userOptional = Optional.ofNullable(userRepository.findByEmail(oAuth2UserInfo.getEmail()));
         User user;
         if(userOptional.isPresent()) {
             user = userOptional.get();
@@ -58,7 +60,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         } else {
             user = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
         }
-
+        System.out.println(">>> Google"+ oAuth2User.getAttributes());
         return UserPrincipal.create(user, oAuth2User.getAttributes());
     }
 
@@ -69,13 +71,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         user.setProviderId(oAuth2UserInfo.getId());
         user.setFullname(oAuth2UserInfo.getName());
         user.setEmail(oAuth2UserInfo.getEmail());
-        user.setImageUrl(oAuth2UserInfo.getImageUrl());
+        user.setImage_url(oAuth2UserInfo.getImageUrl());
+        user.setEnable(ENABLED);
         return userRepository.save(user);
     }
 
     private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
         existingUser.setFullname(oAuth2UserInfo.getName());
-        existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
+        existingUser.setImage_url(oAuth2UserInfo.getImageUrl());
         return userRepository.save(existingUser);
     }
 }

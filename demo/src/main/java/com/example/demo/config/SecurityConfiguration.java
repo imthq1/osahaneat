@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 
 import javax.crypto.SecretKey;
@@ -48,6 +49,7 @@ public class SecurityConfiguration
     {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
     {String[] whiteList={
@@ -64,7 +66,7 @@ public class SecurityConfiguration
                         .requestMatchers(whiteList).permitAll()
                         .requestMatchers(HttpMethod.GET,"api/v1/restaurants/**").permitAll()
                         .anyRequest().authenticated())
-                .formLogin(Customizer.withDefaults())
+//                .formLogin(Customizer.withDefaults())
                 .oauth2Login(Customizer.withDefaults())
                 .oauth2ResourceServer(oauth2->oauth2.jwt(Customizer.withDefaults())
                         .authenticationEntryPoint(this.customAuthenticationEntryPoint))
