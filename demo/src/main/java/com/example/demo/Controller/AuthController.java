@@ -7,6 +7,8 @@ import com.example.demo.Domain.response.UserDTO;
 import com.example.demo.Repository.UserRepository;
 import com.example.demo.Service.EmailService;
 import com.example.demo.Service.UserService;
+import com.example.demo.config.oauth2.GoogleUtils;
+import com.example.demo.config.oauth2.user.GooglePojo;
 import com.example.demo.util.ApiMessage;
 import com.example.demo.util.SecurityUtil;
 import com.example.demo.util.constant.Enable;
@@ -21,13 +23,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtException;
+
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import jakarta.servlet.http.HttpServletRequest;
+import java.util.*;
 
 
 @RestController
@@ -38,6 +43,7 @@ public class AuthController {
     private final SecurityUtil securityUtil;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final GoogleUtils googleUtils;
     private RabbitTemplate rabbitTemplate;
     private final EmailService emailService;
 
@@ -45,7 +51,8 @@ public class AuthController {
                           UserRepository userRepository,
                           PasswordEncoder passwordEncoder,
                           RabbitTemplate rabbitTemplate,
-                          EmailService emailService) {
+                          EmailService emailService,
+                          GoogleUtils googleUtils) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.userService = userService;
         this.securityUtil = securityUtil;
@@ -53,10 +60,80 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
         this.rabbitTemplate = rabbitTemplate;
         this.emailService = emailService;
+        this.googleUtils = googleUtils;
     }
 
     @Value("${imthang.jwt.refresh-token-validity-in-seconds}")
     private long refreshTokenExpiration;
+
+    private final Set<String> processedCodes = Collections.synchronizedSet(new HashSet<>());
+
+    private boolean isCodeProcessed(String code) {
+        return processedCodes.contains(code);
+    }
+
+    private void markCodeAsProcessed(String code) {
+        processedCodes.add(code);
+    }
+
+    @RequestMapping(value ="/login/oauth2/code/google", method = RequestMethod.GET)
+    public ResponseEntity<Object> loginGoogle(HttpServletRequest request) {
+
+            String code = request.getParameter("code");
+            if (code == null || code.isEmpty()) {
+                return ResponseEntity.badRequest().body("Lỗi: Không lấy được mã xác thực từ Google.");
+            }
+            if (isCodeProcessed(code)) {
+                return ResponseEntity.badRequest().body("Mã code đã được sử dụng.");
+            }
+        try {
+            markCodeAsProcessed(code);
+            // Lấy Access Token từ Google
+            String accessToken = googleUtils.getToken(code);
+            // Lấy thông tin người dùng từ Google
+            GooglePojo googlePojo = googleUtils.getUserInfo(accessToken);
+            // Xây dựng thông tin người dùng trong hệ thống
+            User user = googleUtils.buildUser(googlePojo);
+
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            ResLoginDTO resLoginDTO = new ResLoginDTO();
+
+            if (user != null) {
+                ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin(
+                        user.getId()
+                        , user.getEmail()
+                        , user.getFullname()
+                        , user.getRole());
+
+                resLoginDTO.setUserLogin(userLogin);
+            }
+
+            String accessTokenJWT = this.securityUtil.createAcessToken(user.getEmail(),resLoginDTO);
+            String refreshTokenJWT = this.securityUtil.createRefreshToken(user.getEmail(),resLoginDTO);
+
+            this.userService.updateUserToken(refreshTokenJWT, user.getEmail());
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "Đăng nhập thành công.");
+            response.put("access_token", accessTokenJWT);
+            response.put("user", Map.of("email", user.getEmail(), "name", user.getFullname(), "role", "USER"));
+
+            ResponseCookie resCookies = ResponseCookie.from("refresh_token1", refreshTokenJWT)
+                    .httpOnly(true)
+                    .secure(true)
+                    .path("/")
+                    .maxAge(refreshTokenExpiration)
+                    .build();
+            return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookies.toString()).body(response);
+
+        } catch (Exception e) {
+            // Ghi log lỗi
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Đã xảy ra lỗi trong quá trình xử lý.");
+        }
+    }
 
     @PostMapping("/auth/login")
     public ResponseEntity login(@Valid @RequestBody ReqLoginDTO user) throws IdInvalidException {
