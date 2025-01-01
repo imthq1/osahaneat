@@ -30,3 +30,5 @@ osahaneat/
 ├── demo/                     # Thư mục chứa Backend
 │   └── src/                  # Mã nguồn chính
 └── README.md                 # File mô tả chính của dự án
+![image](https://github.com/user-attachments/assets/900c2bf9-7d43-4fdf-91e0-c55130c4d72b)
+
