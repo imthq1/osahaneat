@@ -1,5 +1,6 @@
 package com.example.demo.Domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -23,6 +24,7 @@ public class Image {
 
     @ManyToOne
     @JoinColumn(name = "res_id", nullable = false)
+    @JsonBackReference
     private Restaurant restaurant;
 
 

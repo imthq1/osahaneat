@@ -33,6 +33,7 @@ public class Restaurant implements Serializable {
     private String logo;
 
     @OneToMany(mappedBy = "restaurant")
+    @JsonManagedReference
     private List<Image> imageList = new ArrayList<>();
 
 

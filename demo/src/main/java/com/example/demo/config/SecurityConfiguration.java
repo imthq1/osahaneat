@@ -21,12 +21,15 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-
+import javax.servlet.http.HttpServletResponse;
 
 
 @Configuration
@@ -36,6 +39,10 @@ public class SecurityConfiguration
 {
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
+    @Value("${successUrl}")
+    private String successUrl;
+    @Value("${failureUrl}")
+    private String failureUrl;
 
     public SecurityConfiguration(CustomAuthenticationEntryPoint customAuthenticationEntryPoint){
         this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
@@ -55,7 +62,7 @@ public class SecurityConfiguration
     {String[] whiteList={
             "/","/api/v1/auth/login","/api/v1/login","/api/v1/auth/register","/login",
             "/home","/oauth2/**","/access-token","/api/v1/forget/pass"
-            ,"/api/v1/reset-password","/api/v1/auth/verify",
+            ,"/api/v1/reset-password","/api/v1/auth/verify","/api/v1/restaurants/approved","/api/v1/login/oauth2/code/google","/api/v1/upload/image","/api/v1/restaurant/load/{id}"
 
     };
         http.
@@ -74,6 +81,9 @@ public class SecurityConfiguration
 
         return http.build();
     }
+
+
+
     @Bean
     public JwtEncoder jwtEncoder(){
         return new NimbusJwtEncoder(new ImmutableSecret<>(getSecretKey()));

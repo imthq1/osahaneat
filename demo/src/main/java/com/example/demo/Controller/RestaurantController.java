@@ -48,7 +48,7 @@ public class RestaurantController {
             throw new IdInvalidException("File not fould");
         }
 
-        Map<String, Object> cloudinaryFile = cloudinaryService.getFileInfo(folderName+"/"+restaurant.getLogo(), folderName);
+        Map<String, Object> cloudinaryFile = cloudinaryService.getFileInfo(restaurant.getLogo(), folderName);
         if (cloudinaryFile == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("File not found on Cloudinary");
         }
@@ -94,6 +94,26 @@ public class RestaurantController {
     public ResponseEntity<?> getAll(@Filter Specification<Restaurant> specification, Pageable pageable) {
         return ResponseEntity.ok().body(this.restaurantService.fillAll(specification, pageable));
     }
+    @PutMapping("/restaurants/accept/{id}")
+    @ApiMessage("Accept for Restaurant")
+    public ResponseEntity<Restaurant> Accept(@PathVariable Long id ) throws IdInvalidException {
+    if(this.restaurantService.findById(id)==null)
+    {
+        throw new IdInvalidException("Restaurant not exists");
+    }
+    return ResponseEntity.ok().body(this.restaurantService.Accept(id));
+    }
+    @GetMapping("/restaurants/pending")
+    @ApiMessage("Get All Restaurant")
+    public ResponseEntity<?> getAllPending(Pageable pageable) {
+        return ResponseEntity.ok().body(this.restaurantService.findPendingRestaurants(pageable));
+    }
+    @GetMapping("/restaurants/approved")
+    @ApiMessage("Get All Restaurant")
+    public ResponseEntity<?> getAllApproved(@Filter  Specification<Restaurant> specification, Pageable pageable) {
+        return ResponseEntity.ok().body(this.restaurantService.findAllApproved(specification,pageable));
+    }
+
     @DeleteMapping("/restaurants/{id}")
     @ApiMessage("Delete a Restaurant")
     public ResponseEntity<?> delete(@PathVariable Long id) throws IdInvalidException {

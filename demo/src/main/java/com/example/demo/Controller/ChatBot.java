@@ -6,7 +6,7 @@ package com.example.demo.Controller;
 
 
 import com.example.demo.config.Genemi.AIService;
-import com.google.cloud.vertexai.generativeai.ChatSession;
+
 
 import lombok.RequiredArgsConstructor;
 

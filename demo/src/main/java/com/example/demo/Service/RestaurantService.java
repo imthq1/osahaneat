@@ -5,6 +5,7 @@ import com.example.demo.Domain.response.RestaurantDTO;
 import com.example.demo.Domain.response.ResultPaginationDTO;
 import com.example.demo.Repository.*;
 import com.example.demo.util.SecurityUtil;
+import com.example.demo.util.constant.Status;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -94,7 +95,22 @@ public class RestaurantService {
         return restaurantDTO;
     }
 
+    public ResultPaginationDTO findPendingRestaurants(Pageable pageable){
+        Page<Restaurant> pageRestaurants=this.restaurantRepository.findPendingRestaurants(pageable);
+        ResultPaginationDTO.Meta meta = new ResultPaginationDTO.Meta();
 
+        meta.setPage(pageable.getPageNumber() + 1);
+        meta.setPageSize(pageable.getPageSize());
+        meta.setPages(pageRestaurants.getTotalPages());
+        meta.setTotal(pageRestaurants.getTotalElements());
+
+
+        ResultPaginationDTO result = new ResultPaginationDTO();
+        result.setMeta(meta);
+        result.setResult(pageRestaurants.getContent());
+
+        return result;
+    }
     @Transactional
     public void deleteRestaurant(long id) {
         Optional<Restaurant> optionalRestaurant = Optional.ofNullable(this.restaurantRepository.findById(id));
@@ -127,6 +143,25 @@ public class RestaurantService {
     public Restaurant findByName(String name) {
         return this.restaurantRepository.findByName(name);
     }
+    public ResultPaginationDTO findAllApproved(Specification<Restaurant> spec, Pageable pageable) {
+        Page<Restaurant> pageRestaurants = this.restaurantRepository.findApprovedRestaurants(spec, pageable);
+
+
+
+       ResultPaginationDTO.Meta meta = new ResultPaginationDTO.Meta();
+        meta.setPage(pageable.getPageNumber() + 1);
+        meta.setPageSize(pageable.getPageSize());
+        meta.setPages(pageRestaurants.getTotalPages());
+        meta.setTotal(pageRestaurants.getTotalElements());
+
+
+        ResultPaginationDTO result = new ResultPaginationDTO();
+        result.setMeta(meta);
+        result.setResult(pageRestaurants.getContent());
+
+        return result;
+    }
+
     public ResultPaginationDTO  fillAll(Specification<Restaurant> spec, Pageable pageable) {
         Page<Restaurant> pageRestaurants=this.restaurantRepository.findAll(spec,pageable);
         ResultPaginationDTO res=new ResultPaginationDTO();
@@ -143,6 +178,16 @@ public class RestaurantService {
         res.setResult(pageRestaurants);
 
         return res;
+    }
+    public Restaurant findById(Long id)
+    {
+        return this.restaurantRepository.findById(id).get();
+    }
+    public Restaurant Accept(Long id)
+    {
+        Restaurant restaurant=this.restaurantRepository.findById(id).get();
+        restaurant.setStatus(Status.APPROVED);
+      return  this.restaurantRepository.save(restaurant);
     }
 
     public RestaurantDTO update(Restaurant restaurant, Restaurant resDB) {
