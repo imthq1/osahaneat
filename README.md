@@ -1,4 +1,4 @@
-# osahaneat
+# osahaneat đặt đồ ăn trực tuyến
 
 ## Mô Tả Dự Án
 Dự án `osahaneat` là một ứng dụng **full-stack** bao gồm **frontend** (React) và **backend** (Spring Boot).
