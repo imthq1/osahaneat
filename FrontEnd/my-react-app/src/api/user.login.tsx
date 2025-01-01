@@ -1,9 +1,10 @@
-
-
 const BASE_URL = "http://localhost:8080/api/v1";
 const token = localStorage.getItem("access_token");
-
+const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=876120705043-46ochn7908876r8ncdrokg4ka133r5bh.apps.googleusercontent.com&scope=profile%20email&state=Pyn08lGLIKAGNsFecS1c888kA1sAOiFp3tXw85PuKcY%3D&redirect_uri=http%3A%2F%2Flocalhost%3A5173%2Flogin%2Fgoogle&service=lso&o2v=2&ddm=1&flowName=GeneralOAuthFlow`;
 class LoginAPI {
+  async loginGoogle() {
+    window.location.href = GOOGLE_AUTH_URL;
+  }
   // Login API
   async logout(navigate: any) {
     try {

@@ -1,0 +1,70 @@
+/* AdminSeller.scss */
+
+.admin-seller-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .ant-table {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    .ant-table-thead > tr > th {
+      background-color: #f0f0f0;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .ant-table-tbody > tr > td {
+      text-align: center;
+      padding: 12px;
+    }
+  }
+
+  .ant-table-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+
+    button {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .accept {
+      background-color: #4caf50;
+      color: #fff;
+    }
+
+    .delete {
+      background-color: #f44336;
+      color: #fff;
+    }
+  }
+}
+.ant-table-tbody > tr > td .status[data-status="PENDING"] {
+  color: orange;
+}
+
+.ant-table-tbody > tr > td .status[data-status="APPROVED"] {
+  color: green;
+}
+
+.ant-table-tbody > tr > td .status[data-status="REJECTED"] {
+  color: red;
+}

@@ -1,36 +1,27 @@
 /* Main content - nơi chứa table */
-.main-content {
-  margin-left: 170px; /* Để phần nội dung tránh bị che khuất bởi sidebar */
-  padding: 200px;
-  width: calc(
-    100% - 250px
-  ); /* Đảm bảo phần nội dung không vượt quá chiều rộng màn hình */
-  box-sizing: border-box;
-}
 
-/* Table chiếm toàn bộ chiều rộng trong phần nội dung chính */
 .user-table {
-  width: 100%; // Độ rộng chiếm 90% của container cha
-  max-width: 1200px; // Giới hạn độ rộng tối đa để tránh quá dài trên màn hình lớn
-  margin: 20px auto 50px 400px; // Căn giữa bảng với khoảng cách 20px ở trên và dưới
+  width: 100%;
+  max-width: calc(100% - 40px); /* Giới hạn chiều rộng */
+  margin: 20px auto; /* Đảm bảo căn giữa */
   padding: 15px;
-  border-radius: 10px; // Bo tròn viền
+  border-radius: 10px;
   background-color: #fff;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); // Tạo bóng đổ nhẹ
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
 
   .ant-table {
-    border-radius: 10px;
-    overflow: hidden; // Đảm bảo nội dung bên trong không tràn ra ngoài viền bo tròn
+    width: 100%;
+    overflow-x: hidden; /* Ngăn cuộn ngang trong table */
   }
 
   .ant-table-thead > tr > th {
-    background-color: #f0f2f5; // Màu nền nhẹ cho phần header
+    background-color: #f0f2f5;
     font-weight: bold;
     text-transform: uppercase;
   }
 
   .ant-table-tbody > tr:hover {
-    background-color: #e6f7ff; // Hiệu ứng hover cho hàng trong bảng
+    background-color: #e6f7ff;
   }
 }
 
@@ -85,7 +76,7 @@
   top: 0;
   left: 0;
   bottom: 0;
-  width: 170px;
+
   background: linear-gradient(180deg, #d90429, #6a0572);
   color: #fff;
   padding: 20px;
@@ -95,76 +86,88 @@
   box-shadow: 2px 0px 10px rgba(253, 253, 253, 0.1);
   overflow-y: auto;
 }
-.layout-container {
+
+.sidebar-container {
+  width: 200px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, #d90429, #6a0572);
+  color: #fff;
   display: flex;
-  height: 100vh;
+  flex-direction: column;
+  padding: 20px;
+  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);
 
-  .sidebar-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 200px; // Độ rộng sidebar
-    background: linear-gradient(180deg, #d90429, #6a0572);
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);
-    overflow-y: auto; // Cho phép cuộn nếu nội dung quá dài
-    z-index: 1000; // Đảm bảo sidebar nằm trên các phần tử khác
+  z-index: 1000;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin-bottom: auto;
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
   }
+}
 
-  .logo-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 120px;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
-    margin-bottom: auto;
+.main-content-container {
+  margin-left: 200px; /* Phần này cần khớp với chiều rộng sidebar */
+  padding: 40px;
+  flex-grow: 1; /* Chiếm toàn bộ phần còn lại của màn hình */
+  background-color: #fff;
+  overflow-x: hidden; /* Ngăn cuộn ngang ở phần nội dung chính */
+}
 
-    img {
-      max-width: 100%;
-      max-height: 100%;
-      border-radius: 10px;
+.menu-list {
+  background: transparent;
+  border-right: none;
+  .ant-menu-item {
+    margin-bottom: 10px;
+
+    color: #fff; // Màu chữ trắng
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+
+    i {
+      color: #fff; // Màu icon trắng
     }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1); // Nền mờ khi hover
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.3); // Viền sáng nhẹ khi hover
+    }
+
+    &.ant-menu-item-selected {
+      background-color: rgba(252, 246, 246, 0.2); // Nền mờ khi mục được chọn
+      color: #fff; // Chữ trắng khi chọn
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.3); // Viền sáng nhẹ khi chọn
+
+      i {
+        color: #fff; // Icon trắng khi chọn
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar-container {
+    width: 200px;
   }
 
   .main-content-container {
-    flex-grow: 1;
-    padding: 20px;
-    background-color: #fff;
+    margin-left: 150px;
   }
 
-  .menu-list {
-    background: transparent;
-    border-right: none; // Loại bỏ viền bên phải mặc định
-
-    .ant-menu-item {
-      margin-bottom: 10px;
-
-      color: #fff; // Màu chữ trắng
-      transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-
-      i {
-        color: #fff; // Màu icon trắng
-      }
-
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.1); // Nền mờ khi hover
-        box-shadow: 0 0 8px rgba(255, 255, 255, 0.3); // Viền sáng nhẹ khi hover
-      }
-
-      &.ant-menu-item-selected {
-        background-color: rgba(252, 246, 246, 0.2); // Nền mờ khi mục được chọn
-        color: #fff; // Chữ trắng khi chọn
-        box-shadow: 0 0 8px rgba(255, 255, 255, 0.3); // Viền sáng nhẹ khi chọn
-
-        i {
-          color: #fff; // Icon trắng khi chọn
-        }
-      }
-    }
+  .user-table {
+    max-width: 100%; /* Table sẽ co lại khi màn hình nhỏ */
+    overflow-x: auto; /* Cho phép cuộn ngang nếu nội dung quá dài */
   }
 }

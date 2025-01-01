@@ -1,7 +1,6 @@
 import { StrictMode, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import ManagerUser from "./screen/user.manage.tsx";
-
 import App from "./App.tsx";
 import {
   createBrowserRouter,
@@ -23,9 +22,12 @@ import VerifyEmail from "./component/user/login/user.verify.tsx";
 import LayoutHome from "./component/user/home/LayoutHome.tsx";
 import "./style/tableUser.scss";
 import Home from "./component/user/home/Home.tsx";
-
+import logo from "./img/Remove-bg.ai_1734235132974.png";
 import SellerComponent from "./component/user/sales/Seller.tsx";
 import RegisterSeller from "./component/user/sales/Register.tsx";
+import AdminSeller from "./component/admin/admin.seller.regis.tsx";
+import Explore from "./component/user/home/Explore.tsx";
+import GoogleCallback from "./component/user/login/GoogleCallback .tsx";
 const items: MenuProps["items"] = [
   {
     label: <Link to="/admin">Home</Link>,
@@ -72,7 +74,7 @@ const LayoutAdmin = () => {
       <div className="sidebar-container">
         <a href="http://localhost:5173/home">
           <div className="logo-container">
-            <img src="src/img/Remove-bg.ai_1734235132974.png" alt="Logo" />
+            <img src={logo} alt="Logo" />;
           </div>
         </a>
 
@@ -98,7 +100,7 @@ const router = createBrowserRouter([
       },
       {
         path: "sales",
-        element: <ManagerUser />,
+        element: <AdminSeller />,
       },
     ],
   },
@@ -111,6 +113,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/login/google",
+    element: <GoogleCallback />,
   },
   {
     path: "/forgot",
@@ -128,7 +134,10 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <LayoutHome />,
-    children: [{ index: true, element: <Home /> }],
+    children: [
+      { index: true, element: <Home /> },
+      { path: "explore", element: <Explore /> },
+    ],
   },
 ]);
 

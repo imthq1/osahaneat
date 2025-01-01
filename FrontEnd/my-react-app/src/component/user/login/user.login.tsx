@@ -9,6 +9,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
   const LoginFetch = async () => {
     try {
       const response = await loginAPI.login(email, password);
@@ -65,6 +66,14 @@ const Login = () => {
           SIGN IN
         </Button>
 
+        <Button
+          type="primary"
+          block
+          className="login-button google-login"
+          onClick={() => loginAPI.loginGoogle()} // Gọi phương thức loginGoogle
+        >
+          GOOGLE
+        </Button>
         <div className="extra-links">
           <Link to="/forgot" className="forgot-password">
             Forgot password?

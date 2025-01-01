@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router";
 import { Dropdown, Menu } from "antd";
 import {
@@ -15,16 +15,15 @@ import {
 import type { MenuProps } from "antd";
 import { userApi } from "../../../api/user.api";
 import { loginAPI } from "../../../api/user.login";
-import "../../../style/home.scss";
-
+import "../../../style/LayoutHome.scss";
+import logo from "../../../img/Remove-bg.ai_1734235132974.png";
 const LayoutHome = () => {
   const [fullName, setfullName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
- 
+
   const navigate = useNavigate();
 
-  
   const handleChangeAccount = async () => {
     try {
       const token = localStorage.getItem("access_token");
@@ -63,7 +62,7 @@ const LayoutHome = () => {
       icon: <HomeOutlined />,
     },
     {
-      label: <Link to="/explore">Explore</Link>,
+      label: <Link to="/home/explore">Explore</Link>,
       key: "explore",
       icon: <TeamOutlined />,
     },
@@ -153,7 +152,6 @@ const LayoutHome = () => {
             <Dropdown menu={{ items: profileMenu }} trigger={["click"]}>
               <UserOutlined className="icon" style={{ cursor: "pointer" }} />
             </Dropdown>
-            ;
           </div>
         </div>
       </div>
@@ -166,7 +164,7 @@ const LayoutHome = () => {
       <div className="sidebar-container">
         <a href="/home">
           <div className="logo-container">
-            <img src="src/img/Remove-bg.ai_1734235132974.png" alt="Logo" />
+            <img src={logo} alt="Logo" />
           </div>
         </a>
 
@@ -182,10 +180,11 @@ const LayoutHome = () => {
           <div className="user-info">
             <UserOutlined className="user-icon" />
             <div>
-              <div>{fullName}</div>
-              <small>{email}</small>
+              <div>{fullName || ""}</div>
+              <small>{email || ""}</small>
             </div>
           </div>
+
           <button className="collapse-btn">
             <ArrowLeftOutlined />
           </button>

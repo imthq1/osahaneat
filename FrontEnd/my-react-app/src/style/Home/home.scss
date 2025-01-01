@@ -1,0 +1,89 @@
+.container {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.restaurant-list {
+  display: flex;
+  flex-wrap: nowrap; /* Bố cục ngang */
+  overflow-x: auto; /* Thêm thanh cuộn nếu danh sách quá dài */
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
+.restaurant-list::-webkit-scrollbar {
+  display: none; /* WebKit (Chrome, Safari, Edge) */
+}
+
+.restaurant-item {
+  flex: 0 0 auto; /* Đặt chiều rộng cố định và không co dãn */
+  width: 300px; /* Chiều rộng mỗi mục */
+  background-color: #fff;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  a {
+    text-decoration: none; /* Bỏ gạch chân */
+    color: inherit; /* Giữ nguyên màu chữ */
+  }
+}
+
+.restaurant-logo {
+  width: 100%;
+  height: 150px;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Đảm bảo hình ảnh vừa khung */
+  }
+}
+
+.restaurant-info {
+  padding: 15px;
+  text-align: left;
+  font-family: "Roboto", sans-serif; /* Thay đổi kiểu chữ */
+
+  h3 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+    white-space: nowrap; /* Không xuống dòng */
+    overflow: hidden; /* Ẩn phần tràn */
+    text-overflow: ellipsis; /* Thêm dấu "..." nếu nội dung quá dài */
+  }
+
+  p {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .rating {
+    font-size: 14px;
+    font-weight: bold;
+    color: #ff9800;
+  }
+}
