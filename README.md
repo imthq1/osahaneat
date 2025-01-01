@@ -40,7 +40,7 @@ osahaneat/
 
 ![image](https://github.com/user-attachments/assets/05e2816c-ab26-41e9-90b6-c7454370a9b4)
 
-##Home Page
+## Home Page
 ![image](https://github.com/user-attachments/assets/3c2ffd84-3859-4695-b091-589b6a622f15)
 
 
