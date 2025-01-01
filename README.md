@@ -30,3 +30,21 @@ osahaneat/
 ├── demo/                     # Thư mục chứa Backend
 │   └── src/                  # Mã nguồn chính
 └── README.md                 # File mô tả chính của dự án
+```
+## Login Form
+![image](https://github.com/user-attachments/assets/3cf71505-eee7-493b-a735-030669641d76)
+
+
+![image](https://github.com/user-attachments/assets/db74d2fd-6078-4d13-8d7d-dcafb584692b)
+
+
+![image](https://github.com/user-attachments/assets/05e2816c-ab26-41e9-90b6-c7454370a9b4)
+
+![image](https://github.com/user-attachments/assets/f01896bf-be79-4e98-b8e6-72e0b9d84bb6)
+
+
+## Home Page
+![image](https://github.com/user-attachments/assets/3c2ffd84-3859-4695-b091-589b6a622f15)
+
+
+
