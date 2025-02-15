@@ -6,14 +6,15 @@ Dự án `osahaneat` là một ứng dụng **full-stack** bao gồm **frontend*
 # Technical
 
 ## Backend:
-
+## Libraries and Integration
 1. Framework: Spring Boot
 2. Database: MySQL
 3. Cloudinary
 4. VNPAY
 5. RabbitMQ
 6. CRUD
-7. Oauth2
+7. Oauth2 (Login with Google)
+8. Send Mail
 ## Frontend:
 
 1. Framework: React
