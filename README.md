@@ -49,13 +49,6 @@ osahaneat/
 
 ##  Setup & Installation
 
-### Prerequisites
-
-- Java 11 or higher
-- Node.js 14.x or higher
-- MySQL 8.x
-- Docker (for RabbitMQ)
-
 ### Backend
 
 Clone the repository and navigate to the `demo` folder:
