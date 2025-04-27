@@ -6,7 +6,7 @@ It allows customers to browse menus, place orders, and track delivery, while pro
 
 ##  Key Features
 
-- User Registration & Authentication: Secure sign-up and login using OAuth2 (Google Sign-In) or email/password. Authentication is managed using JWT to securely maintain user sessions.
+- ##User Registration & Authentication##: Secure sign-up and login using OAuth2 (Google Sign-In) or email/password. Authentication is managed using JWT to securely maintain user sessions.
 - **Restaurant & Menu Management**: Admins can create, update, and delete restaurants and menu items.
 - **Shopping Cart & Checkout**: Customers can add items to a cart, apply VNPAY for payments, and view order summaries.
 - **Order Processing**: Real-time order queue with RabbitMQ for efficient message handling.
