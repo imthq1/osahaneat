@@ -8,6 +8,7 @@ import com.example.demo.Domain.response.OrderDTO;
 import com.example.demo.Repository.FoodRepository;
 import com.example.demo.Repository.OderRepository;
 import com.example.demo.util.SecurityUtil;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -81,6 +82,13 @@ public class OrderService {
             }
         }
         return true;
+    }
+    @Transactional
+    public synchronized Order processOrder(OrderRequest request) {
+        if (!validateFood(request)) {
+            throw new IllegalStateException("Not enough quantity");
+        }
+        return createOrder(request);
     }
     public Order createOrder(OrderRequest orderRequest) {
         String name=this.securityUtil.getCurrentUserLogin().get();

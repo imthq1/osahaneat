@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class OrderConsumer {
@@ -28,10 +30,32 @@ public class OrderConsumer {
         this.orderService = oderService;
         this.rabbitTemplate = rabbitTemplate;
     }
-    @RabbitListener(queues = JobQueue.QUEUE_DEV)
+    @RabbitListener(queues = JobQueue.QUEUE_PROCESS)
+    public void handleProcessOrder(OrderRequest orderRequest) {
+        try {
+            Order order = orderService.processOrder(orderRequest);
+
+            OrderMessage<Long> orderMessage =new OrderMessage<>();
+            orderMessage.setDelayMillis(
+                    Stream.generate(() -> 60000L).limit(15).collect(Collectors.toList()));
+
+            orderMessage.setData(order.getId());
+
+            rabbitTemplate.convertAndSend(JobQueue.QUEUE_DEV_ORDER, orderMessage, message -> {
+                message.getMessageProperties().setDelayLong(60000L);
+                return message;
+            });
+            System.out.println("Order processed successfully, ID = " + order.getId());
+
+        } catch (Exception e) {
+            System.out.println("Error processing order: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    @RabbitListener(queues = JobQueue.QUEUE_DEV_ORDER)
     public void handleRegister(OrderMessage<Long> msg) {
         Order order = this.orderService.findById(msg.getData());
-        if (order == null || Objects.equals(order.getStatus(), StatusOrder.SUCCESS)) {
+        if (order == null || Objects.equals(order.getStatus(), StatusOrder.SUCCESS) || Objects.equals(order.getStatus(), StatusOrder.FAILED)) {
             return;
         }
         try {
@@ -43,7 +67,7 @@ public class OrderConsumer {
             if (msg.hasDelay()) {
                 Long nextDelay = msg.removeNextDelay();
                 rabbitTemplate.convertAndSend(
-                        JobQueue.QUEUE_DEV,
+                        JobQueue.QUEUE_DEV_ORDER,
                         msg,
                         message -> {
                             message.getMessageProperties().setDelayLong(nextDelay);

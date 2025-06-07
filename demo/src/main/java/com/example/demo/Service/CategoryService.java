@@ -10,6 +10,7 @@ import com.example.demo.Repository.UserRepository;
 import com.example.demo.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,7 +49,19 @@ public class CategoryService {
 
             return categoryDTO;
         }
-
+        public List<CategoryDTO> getAllCategories() {
+        List<Category> categories=this.categoryRepository.findAll();
+        List<CategoryDTO> categoryDTOS=new ArrayList<>();
+        for(Category category:categories)
+        {
+           CategoryDTO categoryDTO=new CategoryDTO();
+           categoryDTO.setName(category.getName());
+           categoryDTO.setDescription(category.getDescription());
+           categoryDTO.setId(category.getId());
+           categoryDTOS.add(categoryDTO);
+        }
+        return categoryDTOS;
+        }
     public Boolean findByUserAndCategory(String email, String nameCate) {
         User user=this.userRepository.findByEmail(email);
         Restaurant restaurant=this.restaurantRepository.findByUser(user);
