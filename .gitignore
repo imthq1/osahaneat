@@ -7,37 +7,37 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Backend-specific ignores (demo folder)
-demo/target/
-demo/.mvn/wrapper/maven-wrapper.jar
-demo/**/src/main/**/target/
-demo/**/src/test/**/target/
-demo/src/main/resources/application.properties
+# Backend-specific ignores (BackEnd/demo folder)
+BackEnd/demo/target/
+BackEnd/demo/.mvn/wrapper/maven-wrapper.jar
+BackEnd/demo/**/src/main/**/target/
+BackEnd/demo/**/src/test/**/target/
+BackEnd/demo/src/main/resources/application.properties
 
 # Spring Tool Suite (STS)
-demo/.apt_generated
-demo/.classpath
-demo/.factorypath
-demo/.project
-demo/.settings
-demo/.springBeans
-demo/.sts4-cache
+BackEnd/demo/.apt_generated
+BackEnd/demo/.classpath
+BackEnd/demo/.factorypath
+BackEnd/demo/.project
+BackEnd/demo/.settings
+BackEnd/demo/.springBeans
+BackEnd/demo/.sts4-cache
 
 # IntelliJ IDEA
-demo/.idea/
-demo/*.iws
-demo/*.iml
-demo/*.ipr
+BackEnd/demo/.idea/
+BackEnd/demo/*.iws
+BackEnd/demo/*.iml
+BackEnd/demo/*.ipr
 
 # NetBeans
-demo/nbproject/private/
-demo/nbbuild/
-demo/dist/
-demo/nbdist/
-demo/.nb-gradle/
-demo/build/
-demo/**/src/main/**/build/
-demo/**/src/test/**/build/
+BackEnd/demo/nbproject/private/
+BackEnd/demo/nbbuild/
+BackEnd/demo/dist/
+BackEnd/demo/nbdist/
+BackEnd/demo/.nb-gradle/
+BackEnd/demo/build/
+BackEnd/demo/**/src/main/**/build/
+BackEnd/demo/**/src/test/**/build/
 
 # Frontend-specific ignores (FrontEnd folder)
 FrontEnd/node_modules/
