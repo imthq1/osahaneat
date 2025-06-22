@@ -19,6 +19,7 @@ public class Food {
     private long id;
 
     private String name;
+    private String logo;
     private String description;
     private double price;
     private long quantity;
@@ -31,5 +32,11 @@ public class Food {
     @ManyToOne
     @JoinColumn(name = "cate_id")
     private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
+    @JsonIgnore
+    private Restaurant restaurant;
+
 
 }

@@ -1,10 +1,7 @@
 package com.example.demo.Domain;
 
 import com.example.demo.util.constant.Status;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,6 +33,9 @@ public class Restaurant implements Serializable {
     @JsonManagedReference
     private List<Image> imageList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "restaurant")
+    @JsonBackReference
+    private List<Food> foods;
 
     private String content;
 
@@ -46,11 +46,12 @@ public class Restaurant implements Serializable {
     @JsonIgnore
     private List<RatingRestaurant> ratingRestaurants;
 
+
     @OneToOne
     @JsonIgnore
     private User user;
 
-    @ManyToMany(mappedBy = "restaurants", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY,orphanRemoval = true)
     @JsonProperty("categories")
     private List<Category> categories;
 

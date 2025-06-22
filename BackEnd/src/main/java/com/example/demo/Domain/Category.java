@@ -21,16 +21,10 @@ public class Category {
 
     private String description;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "categories_restaurant",
-            joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns = @JoinColumn(name = "restaurant_id")
-    )
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_Res")
     @JsonIgnoreProperties(value = {"categories"})
-    private List<Restaurant> restaurants;
-
-
+    private Restaurant restaurant;
 
 
     @OneToMany(mappedBy = "category")
