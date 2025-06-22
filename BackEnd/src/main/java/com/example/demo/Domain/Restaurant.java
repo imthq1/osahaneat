@@ -30,11 +30,11 @@ public class Restaurant implements Serializable {
     private String logo;
 
     @OneToMany(mappedBy = "restaurant")
-    @JsonManagedReference
+    @JsonIgnore
     private List<Image> imageList = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurant")
-    @JsonBackReference
+    @JsonManagedReference("restaurant-food")
     private List<Food> foods;
 
     private String content;
@@ -46,14 +46,14 @@ public class Restaurant implements Serializable {
     @JsonIgnore
     private List<RatingRestaurant> ratingRestaurants;
 
-
     @OneToOne
-    @JsonIgnore
+    @JsonBackReference
     private User user;
 
-    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY,orphanRemoval = true)
-    @JsonProperty("categories")
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonManagedReference("restaurant-category")
     private List<Category> categories;
+
 
 
 
