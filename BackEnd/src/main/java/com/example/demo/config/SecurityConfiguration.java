@@ -39,10 +39,6 @@ public class SecurityConfiguration
 {
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
-    @Value("${successUrl}")
-    private String successUrl;
-    @Value("${failureUrl}")
-    private String failureUrl;
 
     public SecurityConfiguration(CustomAuthenticationEntryPoint customAuthenticationEntryPoint){
         this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
@@ -98,7 +94,7 @@ public class SecurityConfiguration
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new
                 JwtGrantedAuthoritiesConverter();
         grantedAuthoritiesConverter.setAuthorityPrefix("");
-        //set quyen han co ten la permission vao context
+
         grantedAuthoritiesConverter.setAuthoritiesClaimName("permission");
 
         JwtAuthenticationConverter jwtAuthenticationConverter = new
