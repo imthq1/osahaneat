@@ -12,7 +12,7 @@ BackEnd/demo/target/
 BackEnd/demo/.mvn/wrapper/maven-wrapper.jar
 BackEnd/demo/**/src/main/**/target/
 BackEnd/demo/**/src/test/**/target/
-BackEnd/demo/src/main/resources/application.properties
+BackEnd/src/main/resources/application.properties
 
 # Spring Tool Suite (STS)
 BackEnd/demo/.apt_generated
@@ -22,7 +22,7 @@ BackEnd/demo/.project
 BackEnd/demo/.settings
 BackEnd/demo/.springBeans
 BackEnd/demo/.sts4-cache
-
+BackEnd/.env
 # IntelliJ IDEA
 BackEnd/demo/.idea/
 BackEnd/demo/*.iws

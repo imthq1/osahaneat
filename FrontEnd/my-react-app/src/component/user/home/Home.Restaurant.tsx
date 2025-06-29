@@ -49,7 +49,7 @@ const ApprovedRestaurants = () => {
         <ul className="restaurant-list">
           {restaurants.map((restaurant) => (
             <li key={restaurant.id} className="restaurant-item">
-              <a href="#">
+              <a href={`/home/restaurants/${restaurant.id}`}>
                 <div className="restaurant-logo">
                   <img
                     src={restaurant.logoUrl}

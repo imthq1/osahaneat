@@ -52,9 +52,8 @@ public class Restaurant implements Serializable {
 
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference("restaurant-category")
+    @JsonIgnore
     private List<Category> categories;
-
-
 
 
     @PrePersist

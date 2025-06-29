@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router";
-import { Dropdown, Menu } from "antd";
+import { Badge, Dropdown, Menu } from "antd";
 import {
   HomeOutlined,
   TeamOutlined,
@@ -17,11 +17,12 @@ import { userApi } from "../../../api/user.api";
 import { loginAPI } from "../../../api/user.login";
 import "../../../style/LayoutHome.scss";
 import logo from "../../../img/Remove-bg.ai_1734235132974.png";
+import { useCart } from "../../../context/CartContext";
 const LayoutHome = () => {
   const [fullName, setfullName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
-
+  const { totalItems } = useCart();
   const navigate = useNavigate();
 
   const handleChangeAccount = async () => {
@@ -146,8 +147,10 @@ const LayoutHome = () => {
             className="search-bar"
           />
           <div className="header-icons">
-            <Link to="/cart">
-              <ShoppingCartOutlined className="icon" />
+            <Link to="/home/cart">
+              <Badge count={totalItems} offset={[0, 5]} size="small" showZero>
+                <ShoppingCartOutlined className="icon" />
+              </Badge>
             </Link>
             <Dropdown menu={{ items: profileMenu }} trigger={["click"]}>
               <UserOutlined className="icon" style={{ cursor: "pointer" }} />
@@ -184,10 +187,6 @@ const LayoutHome = () => {
               <small>{email || ""}</small>
             </div>
           </div>
-
-          <button className="collapse-btn">
-            <ArrowLeftOutlined />
-          </button>
         </div>
       </div>
 

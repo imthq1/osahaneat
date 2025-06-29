@@ -25,6 +25,11 @@ public class CategoryService {
         this.userRepository = userRepository;
         this.restaurantRepository = restaurantRepository;
     }
+    public List<Category> getCategoriesByRestaurant(String email) {
+        User user = userRepository.findByEmail(email);
+
+        return this.categoryRepository.findByRestaurantId(user.getRestaurant().getId());
+    }
     public Category findByCategoryName(String categoryName) {
         return this.categoryRepository.findByName(categoryName);
     }
@@ -32,13 +37,8 @@ public class CategoryService {
     public Category findById(Long id) {
         return this.categoryRepository.findById(id).orElse(null);
     }
-        public CategoryDTO createCate(Category category) {
-            if(category.getRestaurants()!=null)
-            {
-                List<Long> listId=category.getRestaurants().stream().map(x->x.getId()).collect(Collectors.toList());
-                List<Restaurant> restaurants=restaurantRepository.findAllById(listId);
-                category.setRestaurants(restaurants);
-            }
+        public CategoryDTO createCate(Category category,Restaurant restaurant ) {
+            category.setRestaurant(restaurant);
             this.categoryRepository.save(category);
 
             CategoryDTO categoryDTO = new CategoryDTO();
@@ -62,15 +62,5 @@ public class CategoryService {
         }
         return categoryDTOS;
         }
-    public Boolean findByUserAndCategory(String email, String nameCate) {
-        User user=this.userRepository.findByEmail(email);
-        Restaurant restaurant=this.restaurantRepository.findByUser(user);
-        if(this.categoryRepository.existsByNameAndRestaurants_Name(nameCate,restaurant.getName())==true)
-        {
-            return false;
-        }
-
-        return true;
-    }
 
 }

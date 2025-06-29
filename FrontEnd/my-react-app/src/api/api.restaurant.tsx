@@ -24,6 +24,21 @@ class RestaurantAPI {
     });
     return response.json();
   }
+  async getById(id: number | string) {
+    const response = await fetch(`${BASE_URL}/restaurants/${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Không thể lấy thông tin nhà hàng");
+    }
+
+    return response.json();
+  }
 
   async deleteRestaurant(id: number) {
     const response = await fetch(`${BASE_URL}/restaurants/${id}`, {

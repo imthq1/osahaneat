@@ -1,0 +1,332 @@
+:root {
+  --primary-color: #1e3a8a; /* Xanh dương từ sidebar */
+  --secondary-color: #6c63ff; /* Màu tím làm điểm nhấn */
+  --background-color: #f9fafb; /* Nền sáng */
+  --card-background: #ffffff; /* Nền thẻ */
+  --text-color: #333333; /* Màu chữ chính */
+  --border-color: #e0e0e0; /* Viền */
+  --shadow-color: rgba(0, 0, 0, 0.1); /* Bóng */
+  --hover-darken: #17387a; /* Fallback darker shade for primary-color */
+}
+
+.food-management {
+  background-color: var(--background-color);
+  padding: 20px;
+  min-height: 100vh;
+  position: relative;
+}
+
+.add-food-button {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: var(--hover-darken);
+  }
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.form-section {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--card-background);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px var(--shadow-color);
+  margin-bottom: 20px;
+  z-index: 1001;
+  width: 90%;
+  max-width: 500px;
+  animation: fadeIn 0.3s ease;
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--text-color);
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text-color);
+    font-weight: bold;
+  }
+
+  input,
+  textarea,
+  select {
+    width: 98%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+
+    &:focus {
+      border-color: var(--secondary-color);
+      outline: none;
+    }
+  }
+
+  textarea {
+    height: 100px;
+    resize: vertical;
+  }
+
+  .file-upload {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+
+    input[type="file"] {
+      flex: 1;
+    }
+
+    .preview-image {
+      max-width: 100px;
+      max-height: 100px;
+      margin-left: 10px;
+      border-radius: 5px;
+      object-fit: cover;
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 10px;
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .create-button {
+      background-color: var(--secondary-color);
+      color: #ffffff;
+
+      &:hover {
+        background-color: #5a52cc;
+        transform: scale(1.05);
+      }
+    }
+
+    .cancel-button {
+      background-color: #ff4757;
+
+      &:hover {
+        background-color: #e63946;
+        transform: scale(1.05);
+      }
+    }
+  }
+}
+
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.food-card {
+  background-color: var(--card-background);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px var(--shadow-color);
+  transition: transform 0.3s ease;
+  animation: fadeIn 0.5s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .food-info {
+    padding: 15px;
+
+    h2 {
+      font-size: 18px;
+      margin: 0 0 10px 0;
+      color: var(--text-color);
+    }
+
+    p {
+      font-size: 16px;
+      color: var(--secondary-color);
+      margin: 0;
+    }
+
+    .actions {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+
+      button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        transition: color 0.3s ease;
+
+        &:first-child {
+          color: var(--secondary-color);
+
+          &:hover {
+            color: #5a52cc;
+          }
+        }
+
+        &:last-child {
+          color: #ff4757;
+
+          &:hover {
+            color: #e63946;
+          }
+        }
+      }
+    }
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  animation: fadeIn 0.5s ease;
+
+  button {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover:not(:disabled) {
+      background-color: var(--hover-darken);
+    }
+
+    &:disabled {
+      background-color: #e0e0e0;
+      cursor: not-allowed;
+    }
+  }
+
+  span {
+    margin: 0 10px;
+    color: var(--text-color);
+    font-size: 16px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .food-management {
+    padding: 10px;
+  }
+
+  .form-section {
+    padding: 15px;
+    width: 95%;
+
+    h2 {
+      font-size: 1.2rem;
+    }
+
+    input,
+    textarea,
+    select {
+      font-size: 14px;
+    }
+
+    .file-upload {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .preview-image {
+        margin-left: 0;
+        margin-top: 10px;
+      }
+    }
+
+    .form-actions {
+      flex-direction: column;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  .food-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .food-card {
+    img {
+      height: 120px;
+    }
+
+    .food-info {
+      h2 {
+        font-size: 16px;
+      }
+
+      p {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .pagination {
+    button {
+      padding: 3px 8px;
+      font-size: 14px;
+    }
+
+    span {
+      font-size: 14px;
+    }
+  }
+}

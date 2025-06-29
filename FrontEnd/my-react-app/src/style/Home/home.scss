@@ -16,10 +16,6 @@
   scrollbar-width: none; /* Firefox */
 }
 
-.restaurant-list::-webkit-scrollbar {
-  display: none; /* WebKit (Chrome, Safari, Edge) */
-}
-
 .restaurant-item {
   flex: 0 0 auto; /* Đặt chiều rộng cố định và không co dãn */
   width: 300px; /* Chiều rộng mỗi mục */

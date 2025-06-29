@@ -12,6 +12,8 @@ import com.example.demo.util.error.IdInvalidException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1")
 public class CategoryController {
@@ -27,17 +29,19 @@ public class CategoryController {
     public ResponseEntity<CategoryDTO> createCategory(@RequestBody Category category) throws IdInvalidException {
         String email= SecurityUtil.getCurrentUserLogin().get();
         User user = userService.findByEmail(email);
+
         if(user.getRestaurant()==null)
         {
             throw  new IdInvalidException("User haven't Restaurant");
         }
 
-        if(this.categoryService.findByUserAndCategory(email,category.getName())==false)
-        {
-            throw new IdInvalidException("Category has been exists");
-        }
-            return ResponseEntity.ok().body(this.categoryService.createCate(category));
-    }
 
+            return ResponseEntity.ok().body(this.categoryService.createCate(category,user.getRestaurant()));
+    }
+    @GetMapping("/categories")
+    @ApiMessage("Get All category by Seller")
+    public ResponseEntity<List<Category>> getAllCategories() throws IdInvalidException {
+            return ResponseEntity.ok(this.categoryService.getCategoriesByRestaurant(SecurityUtil.getCurrentUserLogin().get()));
+    }
 
 }

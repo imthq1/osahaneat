@@ -1,0 +1,145 @@
+.restaurant-detail {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: "Segoe UI", sans-serif;
+  color: #333;
+  overflow: visible;
+  .hero {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+
+    img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    &:hover img {
+      transform: scale(1.05);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+      color: white;
+      padding: 20px;
+
+      h1 {
+        margin: 0;
+        font-size: 2.5rem;
+        font-weight: bold;
+      }
+
+      p {
+        margin-top: 5px;
+        font-size: 1rem;
+        font-style: italic;
+        color: #ffddc1;
+      }
+    }
+  }
+
+  .details {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+
+    p {
+      margin: 10px 0;
+
+      strong {
+        color: #555;
+      }
+    }
+
+    .rating {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      gap: 8px;
+    }
+  }
+
+  .menu {
+    margin-bottom: 2rem;
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid #ff5722;
+      padding-left: 10px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px;
+      margin-bottom: 16px;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      background-color: #fff;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+      }
+
+      .food-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .food-info {
+        flex: 1;
+
+        h3 {
+          margin: 0 0 4px;
+          font-size: 1.1rem;
+          font-weight: 600;
+        }
+
+        p {
+          margin: 4px 0;
+          font-size: 0.95rem;
+          color: #666;
+        }
+
+        .price {
+          color: #e53935;
+          font-weight: bold;
+        }
+      }
+
+      .add-button {
+        background-color: #28a745;
+        color: white;
+        padding: 6px 14px;
+        font-size: 18px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #218838;
+        }
+      }
+    }
+  }
+}

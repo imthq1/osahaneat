@@ -72,10 +72,6 @@ public class RestaurantController {
         if (this.restaurantService.findByName(restaurant.getName()) != null) {
             throw new IdInvalidException("Restaurant already exists");
         }
-
-
-
-
         return ResponseEntity.ok().body(this.restaurantService.createRestaurant(restaurant));
     }
 
@@ -135,7 +131,7 @@ public class RestaurantController {
 
 
         try {
-            rabbitTemplate.convertAndSend(JobQueue.QUEUE_DEV, restaurant.getName());
+            rabbitTemplate.convertAndSend(JobQueue.QUEUE_PROCESS, restaurant.getName());
             System.out.println("Message sent to queue: " + restaurant.getName());
         } catch (Exception e) {
             System.err.println("Failed to send message to queue: " + e.getMessage());
@@ -143,6 +139,11 @@ public class RestaurantController {
 
         return ResponseEntity.ok(restaurant);
     }
-
+    @ApiMessage("Get Restaurant By Id")
+    @GetMapping("/restaurants/{id}")
+    public ResponseEntity<Restaurant> getRestaurant(@PathVariable Long id) throws IdInvalidException {
+        Restaurant restaurant=this.restaurantService.findById(id);
+        return ResponseEntity.ok(restaurant);
+    }
 
 }

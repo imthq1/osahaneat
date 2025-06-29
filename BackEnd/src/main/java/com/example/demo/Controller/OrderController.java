@@ -28,7 +28,7 @@ public class OrderController {
     }
     @PostMapping("/orders")
     @ApiMessage("Create a new Oder")
-    public ResponseEntity<String> createOder(@RequestBody OrderRequest orderRequest) throws IdInvalidException {
+    public ResponseEntity<Long> createOder(@RequestBody OrderRequest orderRequest) throws IdInvalidException {
         if(orderRequest.getFoods()==null)
         {
             throw new IdInvalidException("Order is empty");
@@ -45,11 +45,12 @@ public class OrderController {
 
         orderMessage.setData(order.getId());
 
-        rabbitTemplate.convertAndSend(JobQueue.QUEUE_DEV, orderMessage, message -> {
+        rabbitTemplate.convertAndSend(JobQueue.QUEUE_PROCESS, orderMessage, message -> {
             message.getMessageProperties().setDelayLong(60000L);
             return message;
         });
-        return ResponseEntity.ok().body("Order created successfully");
+        return ResponseEntity.ok(order.getId());
+
     }
 
 }

@@ -1,0 +1,56 @@
+.seller-register-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  text-align: center;
+  font-family: "Segoe UI", sans-serif;
+
+  .title {
+    font-size: 24px;
+    margin-bottom: 25px;
+    color: #333;
+  }
+
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    input,
+    textarea {
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: none;
+    }
+
+    button {
+      padding: 12px;
+      font-size: 16px;
+      background-color: #ff5722;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background-color: #e64a19;
+      }
+    }
+  }
+
+  .success {
+    color: green;
+    margin-top: 15px;
+  }
+
+  .error {
+    color: red;
+    margin-top: 15px;
+  }
+}

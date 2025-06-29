@@ -10,7 +10,9 @@ import java.util.List;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> , JpaSpecificationExecutor<Category> {
     List<Category> findByIdIn(List<Long> ids);
+
     Category save(Category category);
+
     Category findByName(String name);
-    boolean existsByNameAndRestaurants_Name(String name, String restaurants);
+    List<Category> findByRestaurantId(Long restaurantId);
 }
