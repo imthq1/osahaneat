@@ -128,5 +128,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ## Home Page
 ![image](https://github.com/user-attachments/assets/3c2ffd84-3859-4695-b091-589b6a622f15)
 
+![image](https://github.com/user-attachments/assets/8e7f4a3d-789f-4d14-9915-93b10eaa0606)
 
+![image](https://github.com/user-attachments/assets/0cf722ea-b0ba-4f00-bbe9-06d63a7a635d)
 
